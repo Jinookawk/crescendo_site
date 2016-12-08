@@ -1,0 +1,85 @@
+
+.problem-content {
+	height: 900px;
+}
+
+.case4-content {
+	height: 1200px;
+}
+
+.submenu {
+	display: none;
+}
+
+#problem-menu > li > ul {
+	text-align: right;
+}
+
+#problem-menu > li.active {
+	border-radius: 6px;
+	border: 1px solid #b3daff;
+}
+
+.problem table {
+	margin-top: 10px;
+}
+
+.problem table thead, .problem-content table thead {
+	text-align: center;
+}
+
+.problem-title {
+	font-size: 45px;
+}
+
+.problem-content > table {
+	margin-top: 30px;
+}
+
+.problem_num {
+	text-align: right;
+}
+
+.problem_center {
+	text-align: center;
+}
+
+.nav-pills > li.active > a, 
+.nav-pills > li.active > a:hover, 
+.nav-pills > li.active > a:focus {
+	background-color: #99ceff;
+}
+
+.nav-pills > li.active > ul > li.active > a, 
+.nav-pills > li.active > ul > li.active > a:hover, 
+.nav-pills > li.active > ul > li.active > a:focus {
+	background-color: #b3daff;
+}
+
+.nav-pills li a{
+	color: black;
+}
+
+#id_submit {
+	margin-left: 5px;
+}
+
+div.form-group.col-md-4 {
+	padding-right: 0px;
+}
+
+td.col-md-8 {
+	padding-right: 0px;
+}
+
+.index {
+	font-weight: bold;
+}
+
+.blue-back {
+	background-color: #cce0ff;
+}
+
+.glyphicon {
+	line-height: 1.3;
+}

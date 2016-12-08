@@ -1,0 +1,185 @@
+{% extends 'problem_menu.html' %}
+
+{% block problem_content %}
+{% load problem_stats %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		{% if problem.artifact < 14 %}
+			$('#problem-menu > li:eq(0)').toggleClass("active");
+			$('#problem-menu > li:eq(0) > ul').css("display", "block");
+		{% else %}
+			$('#problem-menu > li:eq(1)').toggleClass("active");
+                        $('#problem-menu > li:eq(1) > ul').css("display", "block");
+		{% endif %}
+		{% if problem.artifact == 1 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(0)').toggleClass("active");
+		{% elif problem.artifact == 2 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(1)').toggleClass("active");
+		{% elif problem.artifact == 3 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(2)').toggleClass("active");
+		{% elif problem.artifact == 4 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(3)').toggleClass("active");
+		{% elif problem.artifact == 5 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(4)').toggleClass("active");
+		{% elif problem.artifact == 6 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(5)').toggleClass("active");
+		{% elif problem.artifact == 7 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(6)').toggleClass("active");
+		{% elif problem.artifact == 8 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(7)').toggleClass("active");
+		{% elif problem.artifact == 9 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(8)').toggleClass("active");
+		{% elif problem.artifact == 10 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(9)').toggleClass("active");
+		{% elif problem.artifact == 11 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(10)').toggleClass("active");
+		{% elif problem.artifact == 12 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(11)').toggleClass("active");
+		{% elif problem.artifact == 13 %}
+			$('#problem-menu > li:eq(0) > ul > li:eq(12)').toggleClass("active");
+		{% elif problem.artifact == 14 %}
+			$('#problem-menu > li:eq(1) > ul > li:eq(0)').toggleClass("active");
+		{% elif problem.artifact == 15 %}
+			$('#problem-menu > li:eq(1) > ul > li:eq(1)').toggleClass("active");
+		{% elif problem.artifact == 16 %}
+			$('#problem-menu > li:eq(1) > ul > li:eq(2)').toggleClass("active");
+		{% endif %}
+
+		$('#problem-menu > li:eq(1)').hover(function () {
+			$(this).addClass("active");
+			$(this).find("ul:first").show(); 
+		}, function () {
+			$(this).removeClass("active");
+			$(this).find("ul:first").hide(); 
+		});
+
+		$('#problem-menu > li:eq(2)').hover(function () {
+			$(this).addClass("active");
+			$(this).find("ul:first").show();
+		}, function () {
+			$(this).removeClass("active");
+			$(this).find("ul:first").hide();
+		});
+
+		{% if request.user.is_staff %}
+			$('#modifybutton').click(function() {
+				$(location).attr("href", "/admin/problem/problem/{{ problem.num }}/change/");
+			});
+		{% endif %}
+	});
+
+	{% if not test.user.is_active %}
+		alert('Login Please');
+		$(location).attr('href', "{% url 'artifact1' %}");
+	{% elif user_level < problem.level %}
+		if(confirm('Your level is lower than problem level.\nDo you want to continue?') == 0){
+			{% if problem.artifact == 1 %}
+				$(location).attr('href', "{% url 'artifact1' %}");
+			{% elif problem.artifact == 2 %}
+				$(location).attr('href', "{% url 'artifact2' %}");
+			{% elif problem.artifact == 3 %}
+				$(location).attr('href', "{% url 'artifact3' %}");
+			{% elif problem.artifact == 4 %}
+				$(location).attr('href', "{% url 'artifact4' %}");
+			{% elif problem.artifact == 5 %}
+				$(location).attr('href', "{% url 'artifact5' %}");
+			{% elif problem.artifact == 6 %}
+				$(location).attr('href', "{% url 'artifact6' %}");
+                        {% elif problem.artifact == 7 %}
+                                $(location).attr('href', "{% url 'artifact7' %}");
+                        {% elif problem.artifact == 8 %}
+                                $(location).attr('href', "{% url 'artifact8' %}");
+                        {% elif problem.artifact == 9 %}
+                                $(location).attr('href', "{% url 'artifact9' %}");
+                        {% elif problem.artifact == 10 %}
+                                $(location).attr('href', "{% url 'artifact10' %}");
+                        {% elif problem.artifact == 11 %}
+                                $(location).attr('href', "{% url 'artifact11' %}");
+                        {% elif problem.artifact == 12 %}
+                                $(location).attr('href', "{% url 'artifact12' %}");
+                        {% elif problem.artifact == 13 %}
+                                $(location).attr('href', "{% url 'artifact13' %}");
+                        {% elif problem.artifact == 14 %}
+                                $(location).attr('href', "{% url 'artifact14' %}");
+                        {% elif problem.artifact == 15 %}
+                                $(location).attr('href', "{% url 'artifact15' %}");
+                        {% elif problem.artifact == 16 %}
+                                $(location).attr('href', "{% url 'artifact16' %}");
+			{% endif %}
+		}
+	{% endif %}
+</script>
+<div class="problem-content col-md-10">
+	<table class="table table-bordered">
+		<tr>
+			<td class="col-md-2 index">Title</td>
+			<td colspan="5">{{ problem.title }}</td>
+		</tr>
+		<tr>
+			<td class="index">Level</td>
+			<td colspan="5">level{{ problem.level }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-2 index">Pass/Submits</td>
+			<td class="col-md-2">{{ problem.corrects|getstats:problem.submits }} ({{ problem.corrects }}/{{ problem.submits }})</td>
+			<td class="col-md-2 index">Importance</td>
+			{% if problem.importance == 0 %}
+				<td class="col-md-2">Low</td>
+			{% elif problem.importance == 1 %}
+				<td class="col-md-2">Middle</td>
+			{% else %}
+				<td class="col-md-2">High</td>
+			{% endif %}
+			<td class="col-md-2 index">Difficulty</td>
+			{% if problem.difficulty == 0 %}
+				<td class="col-md-2">Low</td>
+			{% elif problem.difficulty == 1 %}
+				<td class="col-md-2">Middle</td>
+			{% else %}
+				<td class="col-md-2">High</td>
+			{% endif %}
+		</tr>
+		<tr>
+			<td class="index">Tags</td>
+			{% for problem_tag in problem_tags %}
+				<td>{{ problem_tag }}</td>
+			{% endfor %}
+			{% if blank != 0 %}
+				<td colspan="{{ blank }}"></td>
+			{% endif %}
+		</tr>
+		<tr>
+			<td class="index">Download File</td>
+			<td colspan="2"><a href="{% url 'problem_download' %}?pnum={{ problem.num }}">{{ problem.downfile }}</a></td>
+			<td class="index">Score</td>
+			<td colspan="2">{{ problem.score }}</td>
+		</tr>
+		<tr>
+			<td class="index">Content</td>
+			<td colspan="5">{{ problem.content|linebreaks }}</td>
+		</tr>
+	</table>
+	<form id="input_answer" class="form-horizontal" method="POST" action="{% url 'problem_answercheck' %}?pnum={{ problem.num }}">{% csrf_token %}
+		<div class="form-group">
+			<label for="id_answer" class="col-md-2 control-label">Answer</label>
+			<div class="col-md-8">
+				<input type="text" id="id_answer" class="form-control" name="answer" {% if state %}placeholder="Already Solved"{% else %}placeholder="Answer"{% endif %} {% if state %}disabled{% endif %} required>
+			</div>
+			<div class="col-md-2">
+				<input type="submit" id="id_submit" class="btn btn-default" value="Submit" {% if state %}disabled{% endif %}>
+			</div>
+		</div>
+	</form>
+	<div class="center-block problem_center" style="width: 400px;">
+		<h3>[Solve Users]</h3>
+		{% for solve_user in solve_users %}
+			<p>{{ solve_user }}</p>
+		{% endfor %}
+	</div>
+</div>
+{% if request.user.is_staff %}
+	<div>
+		<input type="button" id="modifybutton" class="btn btn-info pull-right" value="Modify">
+	</div>
+{% endif %}
+{% endblock problem_content %}

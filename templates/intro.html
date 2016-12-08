@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load staticfiles %}
+<script type="text/javascript">
+	$('nav ul li:eq(1)').toggleClass("active");
+</script>
+<div class="container">
+	<div class="col-md-offset-1 col-md-10">
+		<h1>About Crescendo team</h1>
+		<img id="crescendo_team" class="col-md-12 col-sm-12" src="{% static 'img/crescendo_team.jpg' %}" alt="No image" />
+		<h2>1. 배경</h2>
+		<p class="intro-content">&nbsp;&nbsp;최근 사이버 범죄 및 테러가 다양화됨에 따라, 디지털 포렌식 및 침해 사고 대응 기술의 중요성은 날로 커져가고 있습니다. 국내 수사기관에서도 디지털 포렌식을 중요시 여기는 등 디지털 포렌식 시장 규모 역시 지속적으로 성장하고 있습니다. KISTI(한국과학기술정보연구원)에 따르면, 세계 디지털 포렌식 시장이 2013년 14억 달러에서 2018년 약 23억 달러 규모로 성장할 것으로 예측되고 있습니다.</p>
+		<p class="intro-content">&nbsp;&nbsp;그러나 디지털 포렌식 기술의 수요가 비약적으로 증가하는 것에 비해 국내에서 디지털 포렌식이라는 학문을 공부할 수 있는 수단은 많지 않습니다. 일반인은 물론 수사기관에서도 디지털 교육대상 인원이 일선 수사 경찰관 수에 비해 턱없이 부족하며, 정형화된 디지털 포렌식 실무 교육을 받은 수사관은 많지 않은 상황입니다(송봉규, 한국경찰연구 12권 2호). 이와 대조적으로 해킹의 경우, 그 환경이 훨씬 좋습니다. 다양한 해킹대회와 컨테스트가 존재하며, 이를 뒷받침해주는 수많은 워게임 사이트와 교육 자료들이 있습니다. 디지털 포렌식 및 침해 사고 대응 기술 역시 해킹만큼 그 중요도가 인지되고 있음에도 불구하고, 그 환경은 열악합니다.</p>
+		<br>
+		<h2>2. 목표</h2>
+		<p class="intro-content">&nbsp;&nbsp;따라서 디지털 포렌식의 기초를 다지고 관련 기술을 습득할 수 있는 워게임 사이트를 개발하여 포렌식 교육 환경에 보탬이 되고자 합니다.</p>
+		<br>
+		<h2>3. 세부 내용</h2>
+		<p class="intro-content">&nbsp;&nbsp;각 아티팩트 별 접근 방법에 대한 설명 및 실습 문제, 시나리오 별 실습 문제, 학습 로드맵 등을 웹 사이트를 통해 워게임 형태로 제공합니다.</p>
+	</div>
+</div>
+{% endblock content %}

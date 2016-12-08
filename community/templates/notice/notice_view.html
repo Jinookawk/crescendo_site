@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('nav ul li:eq(4)').toggleClass("active");
+		$('#noticelist').click(function() {
+			$(location).attr("href", "{% url 'noticelist' %}?page=1");
+		});
+		var num = $('p');
+		for(var i = 0; i < num.length; i++) {
+			if($('p:eq(' + i + ')').text().indexOf('http://') != -1 || $('p:eq(' + i + ')').text().indexOf('https://') != -1) {
+				var addr = $('p:eq(' + i + ')').text();
+				$('p:eq(' + i + ')').html("<a href='" + addr + "' target='_blank'>" + addr + "</a>");
+			}
+		}
+	});
+</script>
+<div class="col-md-offset-1 col-md-10">
+	<div style="overflow: auto;">
+		<h2 class="question-title">{{ notice.title }}</h2>
+		<h5 class="question-date">{{ notice.created_date }}</h5>
+	</div>
+	<hr>
+	<div style="overflow: auto; padding: 0 15px;">
+		<span><b>{{ notice.author }}</b></span>
+		<span class="pull-right">조회수 {{ notice.hits }}</span>
+	</div>
+	<hr>
+	<div class="question-content col-md-12">
+		<p>{{ notice.content|linebreaks }}</p>
+	</div>
+	<div style="col-md-12 overflow: auto;">
+		<input class="btn btn-default pull-right" type="button" id="noticelist" value="목록">
+	</div>
+</div>
+{% endblock content %}

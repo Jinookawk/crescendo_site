@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load notice_recent %}
+{% load problem_tags %}
+
+{% block content %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('nav ul li:eq(0)').toggleClass("active");
+	});
+</script>
+{% notice_history %}
+<hr>
+{% recommend_problem %}
+{% endblock content %}

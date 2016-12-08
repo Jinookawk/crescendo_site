@@ -1,0 +1,29 @@
+{% extends 'document_menu.html' %}
+
+{% block document_content %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#document-menu > li:eq(1)').toggleClass("active");
+		$('#document-menu > li:eq(1) > ul').css("display", "block");
+		$('#document-menu > li:eq(1) > ul > li:eq(2)').toggleClass("active");
+	});
+</script>
+<div class="document-content col-md-10">
+	<h2>{{ document.title }}</h2>
+	<hr>
+	<h4>&nbsp;1. HDD 이미징</h4>
+	<div class="embed-responsive embed-responsive-16by9">
+		<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/90FLVBQsjXU" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<hr>
+	<h4>&nbsp;2. 쓰기 방지장치 사용한 이미징</h4>
+	<div class="embed-responsive embed-responsive-16by9">
+		<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/_OzsYH3fanA" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<hr>
+	<h4>&nbsp;3. USB 이미징</h4>
+	<div class="embed-responsive embed-responsive-16by9">
+		<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/z25jGkHAumQ" frameborder="0" allowfullscreen></iframe>
+	</div>
+</div>
+{% endblock document_content %}
