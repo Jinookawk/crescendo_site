@@ -1,0 +1,54 @@
+{% extends 'community_menu.html' %}
+
+{% block community_content %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.nav-pills > li:eq(1)').toggleClass("active");
+		$('#id_list').click(function() {
+			$(location).attr("href", "{% url 'community_scenario_list' %}?page=1");
+		});
+		{% if delete_state %}
+			$('#id_delete').click(function() {
+				$(location).attr("href", "{% url 'community_scenario_delete' %}?scnum={{ scenario.num }}");
+			});
+		{% endif %}
+	});
+</script>
+<div class="community-content col-md-10">
+	<div style="overflow: auto;">
+		<h2 class="question-title">{{ scenario.title }}</h2>
+		<span>by {{ scenario.author }}</span>
+		<h5 class="question-date">{{ scenario.created_date }}</h5>
+	</div>
+	<hr>
+	<div class="scenario-download col-md-12">
+		<p>Report File : <a href="{% url 'community_scenario_download' %}?scnum={{ scenario.num}}">{{ file_name }}</a></p>
+	</div>
+	<div class="question-content col-md-12">
+		<p>{{ scenario.content|linebreaks }}</p>
+	</div>
+	{% for comment in comments %}
+		<div class="col-md-12">
+			<pre><b>{{ comment.author }}</b>	{{ comment.created_date }}<p class="comment-m">{{ comment.message }}</p></pre>
+		</div>
+	{% endfor %}
+	{% if comment_state %}
+	<div class="comment-content col-md-12">
+		<form id="comment" class="form-horizontal" method="POST" action="{% url 's_comment_write_done' %}?scnum={{ scenario.num }}">{% csrf_token %}
+			<div class="form-group">
+				<div class="col-md-10">
+					<textarea id="id_content" class="form-control" name="message" rows="3" required></textarea>
+				</div>
+				<div class="col-md-2">
+					<input type="submit" id="id_submit" class="btn btn-default col-md-12 pull-right" value="Submit">
+				</div>
+			</div>
+		</form>
+	</div>
+	{% endif %}
+	<div class="col-md-12">
+		<input type="button" id="id_list" class="btn btn-default pull-right" value="목록">
+		{% if delete_state %}<input type="button" id="id_delete" class="btn btn-default pull-right" value="삭제">{% endif %}
+	</div>
+</div>
+{% endblock community_content %}

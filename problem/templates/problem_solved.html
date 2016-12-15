@@ -30,10 +30,34 @@
 			$('#exit').focus();
 
 			$('#hexit').click(function() {
-				location.href = "{% url 'problem_view' %}?pnum={{ problem_num }}";
+				{% if problem_num == 0 %}
+					{% if scenario_num == 1 %}
+						location.href = "{% url 'case1' %}";
+					{% elif scenario_num == 2 %}
+						location.href = "{% url 'case2' %}";
+					{% elif scenario_num == 3 %}
+						location.href = "{% url 'case3' %}";
+					{% elif scenario_num == 4 %}
+						location.href = "{% url 'case4' %}";
+					{% endif %}
+				{% else %}
+					location.href = "{% url 'problem_view' %}?pnum={{ problem_num }}";
+				{% endif %}
 			});
 			$('#exit').click(function() {
-				location.href = "{% url 'problem_view' %}?pnum={{ problem_num }}";
+				{% if problem_num == 0 %}
+					{% if scenario_num == 1 %}
+						location.href = "{% url 'case1' %}";
+					{% elif scenario_num == 2 %}
+						location.href = "{% url 'case2' %}";
+					{% elif scenario_num == 3 %}
+						location.href = "{% url 'case3' %}";
+					{% elif scenario_num == 4 %}
+						location.href = "{% url 'case4' %}";
+					{% endif %}
+				{% else %}
+					location.href = "{% url 'problem_view' %}?pnum={{ problem_num }}";
+				{% endif %}
 			});
 		</script>
 	</body>

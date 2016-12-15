@@ -1,0 +1,81 @@
+{% extends 'community_menu.html' %}
+
+{% block community_content %}
+<script type="text/javascript">
+	function get(name){
+		if(name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+			return decodeURIComponent(name[1]);
+	}
+
+	$(document).ready(function() {
+		$('.nav-pills > li:eq(1)').toggleClass("active");
+
+		if(get('page') == 1) {
+			$('.previous-page').addClass("disabled");
+			if(get('page') == {{ last_page }})
+				$('.next-page').addClass("disabled");
+		}
+		else if(get('page') >= {{ last_page }})
+			$('.next-page').addClass("disabled");
+		else {
+			$('.previous-page').removeClass("disabled");
+			$('.next-page').removeClass("disabled");
+		}
+
+		$('.previous-page').click(function() {
+			if($('.previous-page').hasClass("disabled") == false)
+				$(location).attr("href", "{% url 'community_scenario_list' %}?page={{ current_page|add:'-1' }}");
+		});
+
+		$('.next-page').click(function() {
+			if($('.next-page').hasClass("disabled") == false)
+				$(location).attr("href", "{% url 'community_scenario_list' %}?page={{ current_page|add:'1' }}");
+		});
+		$('#freeboard_write').click(function() {
+			$(location).attr("href", "{% url 'community_scenario_write' %}");
+		});
+	});
+</script>
+<div class="notice-thead community-content col-md-10">
+	<h2>시나리오 보고서</h2><br>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<td class="col-md-1">#</td>
+				<td>Title</td>
+				<td class="col-md-1 col-sm-1">Comments</td>
+				<td class="col-md-1 col-sm-2">Writer</td>
+				<td class="col-md-2 col-sm-3">Date</td>
+			</tr>
+		</thead>
+		<tbody>
+		{% for scenario in community_scenario_list %}
+			<tr>
+				<td class="community_num col-md-1">{{ counter.count }}</td>
+				<td><a href="{% url 'community_scenario_view' %}?scnum={{ scenario.num }}">{{ scenario.title }}</a></td>
+				<td class="community_center col-md-1 col-sm-1">{{ scenario.s_comment_num }}</td>
+				<td class="community_center col-md-1 col-sm-2">{{ scenario.author }}</td>
+				<td class="community_center col-md-2 col-sm-3">{{ scenario.created_date|date:"Y.m.d" }}</td>
+				{{ counter.decrease|default_if_none:"" }}
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	<div style="overflow: auto;">
+		<input class="btn btn-default pull-right" type="button" id="freeboard_write" value="Write">
+	</div>
+	<div class="community_center">
+		<ul class="pagination">
+			<li class="previous-page">
+				<a href="#"><span>&laquo;</span></a>
+			</li>
+			{% for page in total_page %}
+				<li {% if current_page == page %}class="active" {% endif %}><a {% if current_page != page %}href="{% url 'community_scenario_list' %}?page={{ page }}" {% endif %}>{{ page }}</a></li>
+			{% endfor %}
+			<li class="next-page">
+				<a href="#"><span>&raquo;</span></a>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock community_content %}

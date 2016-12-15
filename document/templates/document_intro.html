@@ -17,9 +17,9 @@
 		<ul class="dropdown-menu" role="menu" z-index="0">
 			{% load document_array %}
 			{% if state %}
-			<li><a href="{% url 'document_download' %}?filename={{ filename|array_num:0 }}">{{ filename|array_num:0 }}</a></li>
+			<li><a href="{% url 'document_download' %}?filename={{ filename|array_num:0 }}">디지털_증거_수집_및_처리_등에_관한_규칙.pdf</a></li>
 			<li class="divider"></li>
-			<li><a href="{% url 'document_download' %}?filename={{ filename|array_num:1 }}">{{ filename|array_num:1 }}</a></li>
+			<li><a href="{% url 'document_download' %}?filename={{ filename|array_num:1 }}">디지털포렌식_수사관의_증거_수집_및_분석_규정.pdf</a></li>
 			{% endif %}
 		</ul>
 	</div>

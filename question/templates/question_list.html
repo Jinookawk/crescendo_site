@@ -51,7 +51,7 @@
 		<tbody>
 		{% for question in question_list %}
 			<tr>
-				<td class="community_num col-md-1">{{ question.num }}</td>
+				<td class="community_num col-md-1">{{ counter.count }}</td>
 				<td><a href="{% url 'question_view' %}?qnum={{ question.num }}">{{ question.title }}</a></td>
 				<td class="community_center col-sm-1">
 					{% if question.comment_num == 0 %}
@@ -62,6 +62,7 @@
 				</td>
 				<td class="community_center col-md-1 col-sm-2">{{ question.author }}</td>
 				<td class="community_center col-md-2 col-sm-3">{{ question.created_date|date:"Y.m.d" }}</td>
+				{{ counter.decrease|default_if_none:"" }}
 			</tr>
 		{% endfor %}
 		</tbody>

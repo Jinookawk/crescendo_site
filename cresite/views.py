@@ -19,8 +19,9 @@ from django.contrib.auth.models import User
 from user_profile.models import UserProfile
 
 def beenLimited(request, exception):
-	problem_num = request.GET['pnum']
-	context = Context({'problem_num': problem_num})
+	problem_num = request.GET.get('pnum', '0')
+	scenario_num = request.GET.get('snum', '0')
+	context = Context({'problem_num': problem_num, 'scenario_num': int(scenario_num) / 1000})
 	return render(request, 'brute_forcing.html', context)
 
 def login_check(request):
@@ -164,7 +165,7 @@ def mypage(request):
 def rank_page(request):
 	set_rank()
 	names = User.objects.filter(is_staff=False)
-	users = UserProfile.objects.order_by('rank')[0:10]
+	users = UserProfile.objects.order_by('rank', 'user_id')[0:20]
 	context = Context({'users': users, 'names': names})
 
 	return render(request, 'rank_page.html', context)
@@ -203,7 +204,7 @@ def register_done(request):
 			context = Context({'passwordlen_state': True})
 			return render(request, 'registration/register.html', context)
 
-		m = re.match(r"\d+", password1)
+		m = re.match(r"^\d+$", password1)
 		if m != None:
 			context = Context({'passwordnum_state': True})
 			return render(request, 'registration/register.html', context)

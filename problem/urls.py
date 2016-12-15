@@ -12,11 +12,13 @@ from problem.views import artifact10
 from problem.views import artifact11
 from problem.views import artifact12
 from problem.views import artifact13
+from problem.views import artifact14
 from problem.views import anti1, anti2, anti3, case1, case2, case3, case4
 from problem.views import problem_view
 from problem.views import problem_write
 from problem.views import problem_write_done
 from problem.views import problem_answercheck
+from problem.views import scenario_answercheck
 from problem.views import problem_download
 
 urlpatterns = [
@@ -33,6 +35,7 @@ urlpatterns = [
 	url(r'^forensic/11/', artifact11, name='artifact11'),
 	url(r'^forensic/12/', artifact12, name='artifact12'),
 	url(r'^forensic/13/', artifact13, name='artifact13'),
+	url(r'^forensic/14/', artifact14, name='artifact14'),
 	url(r'^antiforensic/1/', anti1, name='anti1'),
 	url(r'^antiforensic/2/', anti2, name='anti2'),
 	url(r'^antiforensic/3/', anti3, name='anti3'),
@@ -44,5 +47,6 @@ urlpatterns = [
 	url(r'^write/$', problem_write, name='problem_write'),
 	url(r'^write_done/$', problem_write_done, name='problem_write_done'),
 	url(r'^answer_check/$', problem_answercheck, name='problem_answercheck'),
+	url(r'^scenario/answer_check/$', scenario_answercheck, name='scenario_answercheck'),
 	url(r'^download/$', problem_download, name='problem_download'),
 ]

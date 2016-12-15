@@ -60,8 +60,9 @@
 							<li><a href="{% url 'roadmap' %}">Contents</a></li>
 							<li><a href="{% url 'artifact1' %}?orderby=title">Problems</a></li>
 							<li><a href="{% url 'noticelist' %}?page=1">Notice</a></li>
-							<li><a href="{% url 'freeboard_list' %}?page=1">Freeboard</a></li>
+							<li><a href="{% url 'freeboard_list' %}?page=1">Community</a></li>
 							<li><a href="{% url 'question_list' %}?page=1">Q&A</a></li>
+							<li><a href="{% url 'rank_page' %}">Rank</a></li>
 						</ul>
 						<div class="navbar-right">
 							{% if user.is_active %}

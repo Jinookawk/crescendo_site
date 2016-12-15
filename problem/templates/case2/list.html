@@ -56,10 +56,36 @@
 			</ul>
 		</li>
 	</ul>
+	<p class="scenario-content">[1번 답]_[2번 답]_[3번 답]</p>
+
+	<p class = "scenario-content"><strong>위 문제 항목을 참고하여 문제 풀이 보고서(분석보고서)를 Community의 시나리오 보고서  게시판에 올려주시면 전문가 분들이 해당 보고서에 대한 피드백을 적어드립니다. 조금 더 빠른 피드백을 원하시면 cres.webadm@gmail.com로 분석보고서를 보내주시면 됩니다.</strong></p>
+	<form id="input_answer" class="form-horizontal" method="POST" action="{% url 'scenario_answercheck' %}?snum=2100">{% csrf_token %}
+		{% load scenario_problem_num %}
+                <div class="form-group">
+                        <label for="id_answer1" class="col-md-2 control-label">No.1</label>
+                        <div class="col-md-8">
+                                <input type="text" id="id_answer1" class="form-control" name="answer1" {% for right in right_problem %}{% ifequal right|scenario_problem_num 1 %}value="Already Solved" disabled{% endifequal %} {% endfor %} placeholder="Answer" required>
+                        </div>
+                </div>
+		<div class="form-group">
+                        <label for="id_answer2" class="col-md-2 control-label">No.2</label>
+                        <div class="col-md-8">
+                                <input type="text" id="id_answer2" class="form-control" name="answer2" {% for right in right_problem %}{% ifequal right|scenario_problem_num 2 %}value="Already Solved" disabled{% endifequal %} {% endfor %} placeholder="Answer" required>
+                        </div>
+                </div>
+		<div class="form-group">
+                        <label for="id_answer3" class="col-md-2 control-label">No.3</label>
+                        <div class="col-md-8">
+                                <input type="text" id="id_answer3" class="form-control" name="answer3" {% for right in right_problem %}{% ifequal right|scenario_problem_num 3 %}value="Already Solved" disabled{% endifequal %} {% endfor %} placeholder="Answer" required>
+                        </div>
+                        <div class="col-md-2">
+                                <input type="submit" id="id_submit" class="btn btn-default" value="Submit" {% if state %}disabled{% endif %}>
+                        </div>
+                </div>
+        </form>
         <div class="col-md-12" style="text-align: center;">
                 <h4 style="display: inline-block">정보 유출 설문조사 :</h4>
                 <a href="https://goo.gl/96WmcT" target="_blank">https://goo.gl/96WmcT</a>
         </div>
-	<!--<p class="scenario-content">[1번 답]_[2번 답]_[3번 답]</p>-->
 </div>
 {% endblock problem_content %}

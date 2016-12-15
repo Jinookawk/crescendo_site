@@ -4,6 +4,7 @@ from .views import question_view
 from .views import question_write
 from .views import question_write_done
 from .views import comment_write_done
+from .views import question_delete
 
 urlpatterns = [
 	url(r'list/$', question_list, name='question_list'),
@@ -11,4 +12,5 @@ urlpatterns = [
 	url(r'write/$', question_write, name='question_write'),
 	url(r'write/done/$', question_write_done, name='question_write_done'),
 	url(r'comment/done/$', comment_write_done, name='comment_write_done'),
+	url(r'delete/$', question_delete, name='question_delete'),
 ]

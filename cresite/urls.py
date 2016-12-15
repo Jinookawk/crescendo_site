@@ -25,7 +25,7 @@ from .views import intro, documents, problems, community, mypage, rank_page
 from community.views import Noticelist, Noticeview, Noticewrite, Noticewritedone
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+	url(r'^admin/', admin.site.urls),
 
 	url(r'^login/$', user_login, name='user_login'),
 	url(r'^logout/$', logout, name='logout'),
@@ -54,5 +54,5 @@ urlpatterns = [
 	url(r'^notice/write/done/$', Noticewritedone, name='noticewritedone'),
 
 	url(r'^mypage/$', mypage, name='mypage'),
-	url(r'^mypage/rank/$', rank_page, name='rank_page'),
+	url(r'^rank/$', rank_page, name='rank_page'),
 ]

@@ -1,0 +1,42 @@
+{% extends 'community_menu.html' %}
+
+{% block community_content %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.nav-pills >  li:eq(1)').toggleClass("active");
+	});
+</script>
+<div class="community-content col-md-10">
+	<form id="write_freeboard" class="form-horizontal" method="POST" action="{% url 'community_scenario_write_done' %}" enctype="multipart/form-data">{% csrf_token %}
+		<div class="form-group">
+			<label for="id_title" class="col-md-2 control-label">Title</label>
+			<div class="col-md-10">
+				<input type="text" id="id_title" class="form-control" name="title" maxlength="50" placeholder="Title" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="id_author" class="col-md-2 control-label">Author</label>
+			<div class="col-md-10">
+				<input type="text" id="id_author" class="form-control" name="author" value="{{ request.user.username }}" disabled>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="id_file" class="col-md-2 control-label">Upload File</label>
+			<div class="col-md-10">
+				<input type="file" id="id_file" class="form-control" name="reportfile">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="id_content" class="col-md-2 control-label">Content</label>
+			<div class="col-md-10">
+				<textarea id="id_content" class="form-control" name="content" rows="10" required></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="submit" id="id_submit" class="btn btn-default pull-right" value="Submit">
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock community_content %}

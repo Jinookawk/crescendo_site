@@ -32,3 +32,22 @@ class Comment_c(models.Model):
 	author = models.ForeignKey('auth.User')
 	created_date = models.DateField(auto_now_add=True)
 	message = models.TextField(null=True, blank=True)
+
+class Community_scenario(models.Model):
+	num = models.AutoField(primary_key=True)
+	author = models.ForeignKey('auth.User')
+	title = models.CharField(max_length=50, null=True)
+	created_date = models.DateField(auto_now_add=True)
+	report_file = models.CharField(max_length=100, null=True, blank=True)
+	content = models.TextField(null=True, blank=True)
+	s_comment_num = models.IntegerField(null=True)
+
+	def __unicode__(self):
+		return self.title
+
+class Comment_scenario(models.Model):
+	num = models.AutoField(primary_key=True)
+	c_scenario = models.ForeignKey(Community_scenario)
+	author = models.ForeignKey('auth.User')
+	created_date = models.DateField(auto_now_add=True)
+	message = models.TextField(null=True, blank=True)

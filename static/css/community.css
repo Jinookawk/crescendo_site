@@ -2,6 +2,16 @@
 	text-align: right;
 }
 
+.scenario-download {
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+#id_delete {
+	margin-right: 10px;
+}
+
 .community_num {
 	text-align: right;
 }
@@ -13,3 +23,4 @@
 .community_center {
 	text-align: center;
 }
+

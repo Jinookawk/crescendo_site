@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 import os
 import urllib
 from django.shortcuts import render
@@ -61,9 +63,15 @@ def document_view(request):
 def document_download(request):
 	if not request.user.is_active:
 		return HttpResponseRedirect('/login_check/')
-	filename = urllib.unquote(request.GET['filename'])
+	filename = request.GET['filename']
+	if filename.find('/') != -1 or filename.find('..') != -1 or filename.find('.pdf') == -1:
+		return HttpResponseRedirect('/')
 	DOC_DIR = os.path.dirname(os.path.abspath(__file__))
-	fp = open(unicode(os.path.join(DOC_DIR, 'document_file')+'/'+filename), 'r')
+	fp = open(os.path.join(DOC_DIR, 'document_file')+'/'+filename, 'r')
 	response = StreamingHttpResponse(fp, content_type='application/force-download')
-	response['Content-Disposition'] = u'attachment; filename*=UTF-8\'\'%s' % urllib.quote(filename.encode('utf-8'))
+	if filename == 'intro1.pdf':
+		filename_kor = '디지털_증거_수집_및_처리_등에_관한_규칙.pdf'
+	elif filename == 'intro2.pdf':
+		filename_kor = '디지털포렌식_수사관의_증거_수집_및_분석_규정.pdf'
+	response['Content-Disposition'] = u'attachment; filename*=UTF-8\'\'%s' % urllib.quote(filename_kor)
 	return response

@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'community_menu.html' %}
 
-{% block content %}
+{% block community_content %}
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('nav ul li:eq(5)').toggleClass("active");
+		$('.nav-pills >  li:eq(0)').toggleClass("active");
 	});
 </script>
-<div class="col-md-offset-1 col-md-10">
+<div class="community-content col-md-10">
 	<form id="write_freeboard" class="form-horizontal" method="POST" action="{% url 'freeboard_write_done' %}">{% csrf_token %}
 		<div class="form-group">
 			<label for="id_title" class="col-md-2 control-label">Title</label>
@@ -33,4 +33,4 @@
 		</div>
 	</form>
 </div>
-{% endblock content %}
+{% endblock community_content %}

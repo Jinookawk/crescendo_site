@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'community_menu.html' %}
 
-{% block content %}
+{% block community_content %}
 <script type="text/javascript">
 	function get(name){
 		if(name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
@@ -8,7 +8,7 @@
 	}
 
 	$(document).ready(function() {
-		$('nav ul li:eq(5)').toggleClass("active");
+		$('.nav-pills > li:eq(0)').toggleClass("active");
 
 		if(get('page') == 1) {
 			$('.previous-page').addClass("disabled");
@@ -36,7 +36,7 @@
 		});
 	});
 </script>
-<div class="notice-thead col-md-offset-1 col-md-10">
+<div class="notice-thead community-content col-md-10">
 	<h2>자유게시판</h2><br>
 	<table class="table table-bordered">
 		<thead>
@@ -51,11 +51,12 @@
 		<tbody>
 		{% for freeboard in freeboard_list %}
 			<tr>
-				<td class="community_num col-md-1">{{ freeboard.num }}</td>
+				<td class="community_num col-md-1">{{ counter.count }}</td>
 				<td><a href="{% url 'freeboard_view' %}?fnum={{ freeboard.num }}">{{ freeboard.title }}</a></td>
 				<td class="community_center col-md-1 col-sm-1">{{ freeboard.f_comment_num }}</td>
 				<td class="community_center col-md-1 col-sm-2">{{ freeboard.author }}</td>
 				<td class="community_center col-md-2 col-sm-3">{{ freeboard.created_date|date:"Y.m.d" }}</td>
+				{{ counter.decrease|default_if_none:"" }}
 			</tr>
 		{% endfor %}
 		</tbody>
@@ -77,4 +78,4 @@
 		</ul>
 	</div>
 </div>
-{% endblock content %}
+{% endblock community_content %}

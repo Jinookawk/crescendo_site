@@ -39,6 +39,7 @@ class Answerlog(models.Model):
 class Scenario(models.Model):
 	snum = models.IntegerField(null=True)
 	answer_num = models.IntegerField(null=True)
+	score = models.IntegerField(null=True)
 	answer1 = models.CharField(max_length=100, null=True, blank=True)
 	answer2 = models.CharField(max_length=100, null=True, blank=True)
 	answer3 = models.CharField(max_length=100, null=True, blank=True)

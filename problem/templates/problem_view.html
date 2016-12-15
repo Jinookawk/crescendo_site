@@ -4,7 +4,7 @@
 {% load problem_stats %}
 <script type="text/javascript">
 	$(document).ready(function() {
-		{% if problem.artifact < 14 %}
+		{% if problem.artifact < 15 %}
 			$('#problem-menu > li:eq(0)').toggleClass("active");
 			$('#problem-menu > li:eq(0) > ul').css("display", "block");
 		{% else %}
@@ -38,10 +38,12 @@
 		{% elif problem.artifact == 13 %}
 			$('#problem-menu > li:eq(0) > ul > li:eq(12)').toggleClass("active");
 		{% elif problem.artifact == 14 %}
-			$('#problem-menu > li:eq(1) > ul > li:eq(0)').toggleClass("active");
+			$('#problem-menu > li:eq(0) > ul > li:eq(13)').toggleClass("active");
 		{% elif problem.artifact == 15 %}
-			$('#problem-menu > li:eq(1) > ul > li:eq(1)').toggleClass("active");
+			$('#problem-menu > li:eq(1) > ul > li:eq(0)').toggleClass("active");
 		{% elif problem.artifact == 16 %}
+			$('#problem-menu > li:eq(1) > ul > li:eq(1)').toggleClass("active");
+		{% elif problem.artifact == 17 %}
 			$('#problem-menu > li:eq(1) > ul > li:eq(2)').toggleClass("active");
 		{% endif %}
 
@@ -99,12 +101,14 @@
                                 $(location).attr('href', "{% url 'artifact12' %}");
                         {% elif problem.artifact == 13 %}
                                 $(location).attr('href', "{% url 'artifact13' %}");
-                        {% elif problem.artifact == 14 %}
-                                $(location).attr('href', "{% url 'artifact14' %}");
+			{% elif problem.artifact == 14 %}
+				$(location).attr('href', "{% url 'artifact14' %}");
                         {% elif problem.artifact == 15 %}
-                                $(location).attr('href', "{% url 'artifact15' %}");
+                                $(location).attr('href', "{% url 'anti1' %}");
                         {% elif problem.artifact == 16 %}
-                                $(location).attr('href', "{% url 'artifact16' %}");
+                                $(location).attr('href', "{% url 'anti2' %}");
+                        {% elif problem.artifact == 17 %}
+                                $(location).attr('href', "{% url 'anti3' %}");
 			{% endif %}
 		}
 	{% endif %}

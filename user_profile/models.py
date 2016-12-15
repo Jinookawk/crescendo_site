@@ -15,6 +15,11 @@ class UserProfile(models.Model):
 	score = models.IntegerField(null=True, blank=True)
 	rank = models.IntegerField(null=True, blank=True)
 	right_problems = models.CharField(max_length=200, blank=True)
+	right_scenarios = models.CharField(max_length=200, blank=True)
+	scenario1 = models.CharField(max_length=200, blank=True)
+	scenario2 = models.CharField(max_length=200, blank=True)
+	scenario3 = models.CharField(max_length=200, blank=True)
+	scenario4 = models.CharField(max_length=200, blank=True)
 
 def assure_user_profile_exists(pk):
 	user = User.objects.get(pk=pk)

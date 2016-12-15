@@ -11,7 +11,14 @@ from django.http import HttpResponseRedirect
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
+class Counter:
+	def __init__(self, num):
+		self.count = num
+	def decrease(self):
+		self.count -= 1
+
 def question_list(request):
+	data_num = Question.objects.all().count()
 	page_data = Paginator(Question.objects.order_by('-num'), 5)
 	page = request.GET.get('page', 1)
 
@@ -23,7 +30,8 @@ def question_list(request):
 		question_list = page_data.page(page_data.num_pages)
 
 	last_page = page_data.num_pages
-	context = Context({'request': request, 'question_list': question_list, 'current_page': int(page), 'total_page': range(1, page_data.num_pages + 1), 'last_page': last_page})
+	tcounter = Counter(data_num)
+	context = Context({'request': request, 'question_list': question_list, 'current_page': int(page), 'total_page': range(1, page_data.num_pages + 1), 'last_page': last_page, 'counter': tcounter})
 	return render(request, 'question_list.html', context)
 
 def question_view(request):
@@ -40,6 +48,18 @@ def question_view(request):
 
 	context = Context({'request': request, 'question': question, 'comments': comments, 'state': state})
 	return render(request, 'question_view.html', context)
+
+def question_delete(request):
+	if not request.user.is_active:
+		return HttpResponseRedirect('/login_check/')
+	question_num = request.GET['qnum']
+	question = Question.objects.get(num=question_num)
+	state = False
+	if request.user.is_staff or request.user.id == question.author.id:
+		question.delete()
+		state = True
+	context = Context({'state': state})
+	return render(request, 'question_delete.html', context)
 
 @login_required(login_url='/login/')
 def question_write(request):
