@@ -30,7 +30,7 @@ class Answerlog(models.Model):
 	submitter = models.ForeignKey('auth.User')
 	problem_num = models.IntegerField(null=True)
 	problem_title = models.CharField(max_length=50, null=True)
-	submit_answer = models.CharField(max_length=100, null=True)
+	submit_answer = models.CharField(max_length=10000, null=True)
 	submit_date = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
