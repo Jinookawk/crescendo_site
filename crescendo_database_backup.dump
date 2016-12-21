@@ -1,0 +1,2625 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- Name: community_comment_c; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE community_comment_c (
+    num integer NOT NULL,
+    created_date date NOT NULL,
+    message text,
+    author_id integer NOT NULL,
+    freeboard_id integer NOT NULL
+);
+
+
+ALTER TABLE public.community_comment_c OWNER TO postgres;
+
+--
+-- Name: community_comment_c_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE community_comment_c_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.community_comment_c_num_seq OWNER TO postgres;
+
+--
+-- Name: community_comment_c_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE community_comment_c_num_seq OWNED BY community_comment_c.num;
+
+
+--
+-- Name: community_comment_scenario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE community_comment_scenario (
+    num integer NOT NULL,
+    created_date date NOT NULL,
+    message text,
+    author_id integer NOT NULL,
+    c_scenario_id integer NOT NULL
+);
+
+
+ALTER TABLE public.community_comment_scenario OWNER TO postgres;
+
+--
+-- Name: community_comment_scenario_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE community_comment_scenario_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.community_comment_scenario_num_seq OWNER TO postgres;
+
+--
+-- Name: community_comment_scenario_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE community_comment_scenario_num_seq OWNED BY community_comment_scenario.num;
+
+
+--
+-- Name: community_community_scenario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE community_community_scenario (
+    num integer NOT NULL,
+    title character varying(50),
+    created_date date NOT NULL,
+    report_file character varying(100),
+    content text,
+    s_comment_num integer,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.community_community_scenario OWNER TO postgres;
+
+--
+-- Name: community_community_scenario_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE community_community_scenario_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.community_community_scenario_num_seq OWNER TO postgres;
+
+--
+-- Name: community_community_scenario_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE community_community_scenario_num_seq OWNED BY community_community_scenario.num;
+
+
+--
+-- Name: community_freeboard; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE community_freeboard (
+    num integer NOT NULL,
+    title character varying(50),
+    created_date date NOT NULL,
+    content text,
+    f_comment_num integer,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.community_freeboard OWNER TO postgres;
+
+--
+-- Name: community_freeboard_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE community_freeboard_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.community_freeboard_num_seq OWNER TO postgres;
+
+--
+-- Name: community_freeboard_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE community_freeboard_num_seq OWNED BY community_freeboard.num;
+
+
+--
+-- Name: community_notice; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE community_notice (
+    num integer NOT NULL,
+    title character varying(50),
+    created_date date NOT NULL,
+    hits integer NOT NULL,
+    content text,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.community_notice OWNER TO postgres;
+
+--
+-- Name: community_notice_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE community_notice_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.community_notice_num_seq OWNER TO postgres;
+
+--
+-- Name: community_notice_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE community_notice_num_seq OWNED BY community_notice.num;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_migrations_id_seq OWNED BY django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: document_document; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE document_document (
+    num integer NOT NULL,
+    title character varying(50),
+    created_date date,
+    filelist character varying(500),
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.document_document OWNER TO postgres;
+
+--
+-- Name: document_document_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE document_document_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.document_document_num_seq OWNER TO postgres;
+
+--
+-- Name: document_document_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE document_document_num_seq OWNED BY document_document.num;
+
+
+--
+-- Name: problem_answerlog; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE problem_answerlog (
+    num integer NOT NULL,
+    problem_num integer,
+    problem_title character varying(50),
+    submit_answer character varying(100),
+    submit_date timestamp with time zone NOT NULL,
+    submitter_id integer NOT NULL
+);
+
+
+ALTER TABLE public.problem_answerlog OWNER TO postgres;
+
+--
+-- Name: problem_answerlog_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE problem_answerlog_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.problem_answerlog_num_seq OWNER TO postgres;
+
+--
+-- Name: problem_answerlog_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE problem_answerlog_num_seq OWNED BY problem_answerlog.num;
+
+
+--
+-- Name: problem_problem; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE problem_problem (
+    num integer NOT NULL,
+    artifact smallint,
+    title character varying(50) NOT NULL,
+    created_date date NOT NULL,
+    level smallint,
+    right_answer character varying(100),
+    submits integer,
+    corrects integer,
+    tags character varying(200),
+    importance smallint,
+    difficulty smallint,
+    score integer,
+    downfile character varying(100),
+    content text,
+    solve_user character varying(200),
+    author_id integer NOT NULL,
+    CONSTRAINT problem_problem_artifact_check CHECK ((artifact >= 0)),
+    CONSTRAINT problem_problem_difficulty_check CHECK ((difficulty >= 0)),
+    CONSTRAINT problem_problem_importance_check CHECK ((importance >= 0)),
+    CONSTRAINT problem_problem_level_check CHECK ((level >= 0))
+);
+
+
+ALTER TABLE public.problem_problem OWNER TO postgres;
+
+--
+-- Name: problem_problem_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE problem_problem_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.problem_problem_num_seq OWNER TO postgres;
+
+--
+-- Name: problem_problem_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE problem_problem_num_seq OWNED BY problem_problem.num;
+
+
+--
+-- Name: problem_scenario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE problem_scenario (
+    id integer NOT NULL,
+    snum integer,
+    answer_num integer,
+    answer1 character varying(100),
+    answer2 character varying(100),
+    answer3 character varying(100),
+    answer4 character varying(100),
+    answer5 character varying(100),
+    answer6 character varying(100),
+    answer7 character varying(100),
+    answer8 character varying(100),
+    answer9 character varying(100),
+    answer10 character varying(100),
+    answer11 character varying(100),
+    answer12 character varying(100),
+    answer13 character varying(100),
+    answer14 character varying(100),
+    answer15 character varying(100),
+    score integer
+);
+
+
+ALTER TABLE public.problem_scenario OWNER TO postgres;
+
+--
+-- Name: problem_scenario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE problem_scenario_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.problem_scenario_id_seq OWNER TO postgres;
+
+--
+-- Name: problem_scenario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE problem_scenario_id_seq OWNED BY problem_scenario.id;
+
+
+--
+-- Name: question_comment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE question_comment (
+    num integer NOT NULL,
+    created_date date,
+    message text,
+    author_id integer NOT NULL,
+    question_id integer NOT NULL
+);
+
+
+ALTER TABLE public.question_comment OWNER TO postgres;
+
+--
+-- Name: question_comment_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE question_comment_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.question_comment_num_seq OWNER TO postgres;
+
+--
+-- Name: question_comment_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE question_comment_num_seq OWNED BY question_comment.num;
+
+
+--
+-- Name: question_question; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE question_question (
+    num integer NOT NULL,
+    title character varying(50),
+    created_date date,
+    content text,
+    comment_num integer,
+    author_id integer NOT NULL
+);
+
+
+ALTER TABLE public.question_question OWNER TO postgres;
+
+--
+-- Name: question_question_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE question_question_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.question_question_num_seq OWNER TO postgres;
+
+--
+-- Name: question_question_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE question_question_num_seq OWNED BY question_question.num;
+
+
+--
+-- Name: user_profile_userprofile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE user_profile_userprofile (
+    user_id integer NOT NULL,
+    level smallint,
+    last_submit timestamp with time zone,
+    score integer,
+    rank integer,
+    right_problems character varying(200) NOT NULL,
+    right_scenarios character varying(200) NOT NULL,
+    scenario1 character varying(200) NOT NULL,
+    scenario2 character varying(200) NOT NULL,
+    scenario3 character varying(200) NOT NULL,
+    scenario4 character varying(200) NOT NULL,
+    CONSTRAINT user_profile_userprofile_level_check CHECK ((level >= 0))
+);
+
+
+ALTER TABLE public.user_profile_userprofile OWNER TO postgres;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_comment_c ALTER COLUMN num SET DEFAULT nextval('community_comment_c_num_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_comment_scenario ALTER COLUMN num SET DEFAULT nextval('community_comment_scenario_num_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_community_scenario ALTER COLUMN num SET DEFAULT nextval('community_community_scenario_num_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_freeboard ALTER COLUMN num SET DEFAULT nextval('community_freeboard_num_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_notice ALTER COLUMN num SET DEFAULT nextval('community_notice_num_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY document_document ALTER COLUMN num SET DEFAULT nextval('document_document_num_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY problem_answerlog ALTER COLUMN num SET DEFAULT nextval('problem_answerlog_num_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY problem_problem ALTER COLUMN num SET DEFAULT nextval('problem_problem_num_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY problem_scenario ALTER COLUMN id SET DEFAULT nextval('problem_scenario_id_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY question_comment ALTER COLUMN num SET DEFAULT nextval('question_comment_num_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY question_question ALTER COLUMN num SET DEFAULT nextval('question_question_num_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can add permission	2	add_permission
+5	Can change permission	2	change_permission
+6	Can delete permission	2	delete_permission
+7	Can add user	3	add_user
+8	Can change user	3	change_user
+9	Can delete user	3	delete_user
+10	Can add group	4	add_group
+11	Can change group	4	change_group
+12	Can delete group	4	delete_group
+13	Can add content type	5	add_contenttype
+14	Can change content type	5	change_contenttype
+15	Can delete content type	5	delete_contenttype
+16	Can add session	6	add_session
+17	Can change session	6	change_session
+18	Can delete session	6	delete_session
+19	Can add user profile	7	add_userprofile
+20	Can change user profile	7	change_userprofile
+21	Can delete user profile	7	delete_userprofile
+22	Can add notice	8	add_notice
+23	Can change notice	8	change_notice
+24	Can delete notice	8	delete_notice
+25	Can add freeboard	9	add_freeboard
+26	Can change freeboard	9	change_freeboard
+27	Can delete freeboard	9	delete_freeboard
+28	Can add comment_c	10	add_comment_c
+29	Can change comment_c	10	change_comment_c
+30	Can delete comment_c	10	delete_comment_c
+31	Can add problem	11	add_problem
+32	Can change problem	11	change_problem
+33	Can delete problem	11	delete_problem
+34	Can add answerlog	12	add_answerlog
+35	Can change answerlog	12	change_answerlog
+36	Can delete answerlog	12	delete_answerlog
+37	Can add document	13	add_document
+38	Can change document	13	change_document
+39	Can delete document	13	delete_document
+40	Can add question	14	add_question
+41	Can change question	14	change_question
+42	Can delete question	14	delete_question
+43	Can add comment	15	add_comment
+44	Can change comment	15	change_comment
+45	Can delete comment	15	delete_comment
+46	Can add scenario	16	add_scenario
+47	Can change scenario	16	change_scenario
+48	Can delete scenario	16	delete_scenario
+49	Can add comment_scenario	17	add_comment_scenario
+50	Can change comment_scenario	17	change_comment_scenario
+51	Can delete comment_scenario	17	delete_comment_scenario
+52	Can add community_scenario	18	add_community_scenario
+53	Can change community_scenario	18	change_community_scenario
+54	Can delete community_scenario	18	delete_community_scenario
+\.
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 54, true);
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+10	pbkdf2_sha256$30000$6NQSrTAWzJMw$wHGvAnUM/v++UVPhxbekdOuSYeSP+FR1X1ihYjYuSkg=	2016-12-11 22:24:57.938801+09	f	honey			adsfaf@nave.com	f	t	2016-12-11 22:24:52.608719+09
+17	pbkdf2_sha256$30000$vulX9nxGciV5$WuikfL7ujRYbU1wf9aMdhTzV7TFvBA/PbH/2yiEkj0o=	2016-12-12 17:48:15.452115+09	f	초코에몽			itwhtjrwn01@gmail.com	f	t	2016-12-12 17:48:02.91096+09
+6	pbkdf2_sha256$30000$AS67gvC9oV0l$NCbKzj8PzIK3dBSQlM0GsGjOW3GiWOCff9BTWytBMEY=	2016-12-21 14:03:55.55711+09	f	Glucose			glucose6126@gmail.com	f	t	2016-12-11 19:20:28.717079+09
+33	pbkdf2_sha256$30000$YZf1XTarLDhw$DINfIMVu3uslKIQrOOyQ60XiSoQyvUE8NnKSUhe1au8=	2016-12-19 11:14:57.400346+09	f	tt			tt@tt.kr	f	t	2016-12-19 11:14:50.162048+09
+13	pbkdf2_sha256$30000$tnDI2zDqHYHb$PC+mUa83d3z1fFwRK/iNXHpkcR/rP07CBypbQvSd63E=	2016-12-12 01:03:21.204094+09	f	No@nswer			1whistlsh@gmail.com	f	t	2016-12-12 01:03:15.577069+09
+29	pbkdf2_sha256$30000$elQ4Eki9VPao$CkcB6PQwTd+VNWaNlNuSOhExNsQl1LxR28IG/nvoF+M=	2016-12-14 18:43:43.534811+09	f	blender			dongho971220@gmail.com	f	t	2016-12-14 18:43:14.563458+09
+30	pbkdf2_sha256$30000$1oFkTtzaM23r$wMjU1A0Js2Kl/aVNd8NiZ6bC6Vz/v6PGJFKC5WYiyck=	\N	f	gusals224			gusals224@yahoo.co.kr	f	t	2016-12-14 18:59:02.367619+09
+11	pbkdf2_sha256$30000$ayt5Mt8y2k8F$i8bSzJI8NQOMXjnXvmQD9E9OA6ierfCY2GhgIcOaRnI=	2016-12-13 20:34:48.925648+09	f	asdfg			sadf@gmail.cim	f	t	2016-12-11 22:48:45.124629+09
+14	pbkdf2_sha256$30000$92RfwglLHJP1$P9QPk5O1l9bWsIEHP+kcsVmAs7/852Dnl91f8uf/d4c=	2016-12-12 10:04:30.144985+09	f	yeaseul			yeaseul@gmail.com	f	t	2016-12-12 10:04:19.035119+09
+7	pbkdf2_sha256$30000$O6klPQcoVF9p$JVjxP4vIGvMYtKKDwd50LUv9YbAiG2XlmWi2oHYKAyQ=	2016-12-11 19:38:54.927611+09	f	HackedSniper			pgh9812@gmail.com	f	t	2016-12-11 19:38:47.718594+09
+28	pbkdf2_sha256$30000$CqJXzqXHS2go$D38kN7jWYOWr8dcpGLGpsYOGe2f5rxG4u39gYVh/a/g=	2016-12-14 18:59:25.953768+09	f	hololololo			hoyun342@gmail.com	f	t	2016-12-14 18:13:32.398164+09
+23	pbkdf2_sha256$30000$PGZQbJVy8TK8$ZOZmJVqYkkaXfJhc+jX24TgkHtwWSvZuMt5V4EPdluk=	2016-12-12 21:23:49.261918+09	f	legnAnellaF			whdl7451@naver.com	f	t	2016-12-12 21:23:39.600334+09
+16	pbkdf2_sha256$30000$jqmlkTPYHZ1C$jd+Bfjxf7daQPN5hcobIlcuGJvO3lZXvmB87MlxDDc8=	2016-12-20 11:46:27.005705+09	f	stria			stria_byte@naver.com	f	t	2016-12-12 11:17:21.025906+09
+1	pbkdf2_sha256$30000$cyQ3SmwicKj3$OlAIbAqHgDYCK3L3NF5ARskBSEML7c3pq+iS19WtGn8=	2016-12-17 11:38:10.32987+09	f	test0			test@test.com	f	t	2016-12-06 19:09:41.151714+09
+15	pbkdf2_sha256$30000$eSUxz1malbtA$O39ZInUliEh80usNkeGvHIb90UNeAf/hRfZgT0sIJsg=	2016-12-12 11:30:47.268998+09	f	merbleu			4521007@naver.com	f	t	2016-12-12 11:08:45.06132+09
+8	pbkdf2_sha256$30000$2oLYm1pxiZI5$6W5KiwbkkXwkbrmN4FxoxGQeTldbXJWwLxUmFbqnlvc=	2016-12-11 20:09:24.70517+09	f	DongSeobLee			dal4segno@gmail.com	f	t	2016-12-11 20:09:09.472881+09
+9	pbkdf2_sha256$30000$ZhkYPxE4CFHr$HK/B/bSY4m7gOgGc7uCXBfwBYVKpmKQkMjaNMjriTYY=	2016-12-11 20:12:35.764422+09	f	ezflame			ezflame1004@gmail.com	f	t	2016-12-11 20:12:30.159011+09
+5	pbkdf2_sha256$30000$5rQFeeyuIk1N$ySXJ5rh5GbQgafKjVH5RlwXmMfOKT8VRAZK4mpxsIYg=	2016-12-14 17:21:43.220546+09	f	tonix0114			tonix0114@gmail.com	f	t	2016-12-11 19:19:55.199401+09
+4	pbkdf2_sha256$30000$2PB9moqGCSf1$MdJv/eazxgtYTXw74u9V96veX5gVZLMBRBsSoEekeuY=	2016-12-16 10:38:50.570229+09	f	ringga0614			dime9880@gmail.com	f	t	2016-12-11 19:04:36.605116+09
+32	pbkdf2_sha256$30000$LcuA3q7V54xx$GWcpfL5qrBS4VeRsnTyvWrN24onHrrCjbUKboGmVBS8=	2016-12-17 12:06:12.921791+09	f	TESTER			imw3378@gmail.com	f	t	2016-12-17 12:06:04.111648+09
+25	pbkdf2_sha256$30000$5q5ug67p8kQN$RJw4VASAjqqnBPOLbHBj8LOMSJVbpWiIlOhwlRDvcwc=	2016-12-14 18:00:19.263982+09	f	upip57			upip57@naver.com	f	t	2016-12-14 18:00:08.719377+09
+18	pbkdf2_sha256$30000$LKtCgotLVp47$YuWtmYm722aCfMTtgjsMHOlYomHo/3lhDww7sYbn1Js=	2016-12-20 23:20:41.954117+09	f	secretpack			shild1234@naver.com	f	t	2016-12-12 18:04:24.8312+09
+26	pbkdf2_sha256$30000$bd2mPQNFc1Kf$Gk0bJWJ9eP2RfqSiFI9HoHUpZaI0GkQsbvL3nkwkUXc=	2016-12-14 18:00:54.35868+09	f	a			a@co.kr	f	t	2016-12-14 18:00:47.758235+09
+27	pbkdf2_sha256$30000$05bxpBd49rjF$q5dZVL31tvB7OxnxpUV2yAHcJY3NC56kPYxhNZ68IzI=	2016-12-14 18:07:19.377225+09	f	kang			kanggc@nate.com	f	t	2016-12-14 18:07:03.620135+09
+12	pbkdf2_sha256$30000$KUvkEjltl3Ts$DkE3iFHPVQvzt68cv5y2WEkmLEISl85WnZ7PLUCtsbs=	2016-12-17 15:59:53.461799+09	f	ddong			wlstp2788@naver.com	f	t	2016-12-11 22:49:34.036924+09
+31	pbkdf2_sha256$30000$XdPnO18maC00$lARzd4sv5DuEaY9txMHVyQUsz3moYharaULiqyhCGtU=	2016-12-17 01:46:03.816701+09	f	asdfqwer1234			asdfqwer@gmail.com	f	t	2016-12-17 01:45:58.39277+09
+19	pbkdf2_sha256$30000$m78R6cBphR5J$P+BEVHSVhRZZkFpfKb/dGOoHeokDzDJGX0v0esxsCd8=	2016-12-17 20:43:01.488493+09	t	chanhui	찬휘	이	chanhui1996@gmail.com	t	t	2016-12-12 19:08:24.601056+09
+2	pbkdf2_sha256$30000$12e4bZKXryPx$rh5ejzIgxHO0ti1NThL2EmH8qCgijRMXk4H4/Bu0rwk=	2016-12-21 03:17:47.305833+09	t	admin			tkfkdnwjd@gmail.com	t	t	2016-12-06 19:12:13.173109+09
+3	pbkdf2_sha256$30000$lwPAYjRJXZnS$PNCFuHqNPcY44kSLwixj+74NUgLC0d3Cn/6xbLPU7HM=	2016-12-21 13:50:58.42671+09	f	MinuteMan			imw3378@gmail.com	f	t	2016-12-06 23:27:41.731715+09
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 33, true);
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: community_comment_c; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY community_comment_c (num, created_date, message, author_id, freeboard_id) FROM stdin;
+\.
+
+
+--
+-- Name: community_comment_c_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('community_comment_c_num_seq', 2, true);
+
+
+--
+-- Data for Name: community_comment_scenario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY community_comment_scenario (num, created_date, message, author_id, c_scenario_id) FROM stdin;
+\.
+
+
+--
+-- Name: community_comment_scenario_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('community_comment_scenario_num_seq', 1, true);
+
+
+--
+-- Data for Name: community_community_scenario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY community_community_scenario (num, title, created_date, report_file, content, s_comment_num, author_id) FROM stdin;
+3	라팀장 PC 분석보고서 샘플입니다.	2016-12-17	시나리오_003_분석보고서.pdf	본 분석보고서는 이미지 파일을 분석한 약식 분석보고서로 실제 분석보고서 작성시 작성해야하는 Bios Time Stamp 확인 등의 작업이 생략되어 있으며, 시나리오 문항 풀이과정과는 조금 다르게 구성되어 있습니다.\r\n또한, 본 보고서는 시나리오 초안을 대상으로 작성된 샘플 문서이며 실제 시나리오에서는 조금 더 풀이가 어려울 수 있습니다.	0	2
+\.
+
+
+--
+-- Name: community_community_scenario_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('community_community_scenario_num_seq', 3, true);
+
+
+--
+-- Data for Name: community_freeboard; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY community_freeboard (num, title, created_date, content, f_comment_num, author_id) FROM stdin;
+\.
+
+
+--
+-- Name: community_freeboard_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('community_freeboard_num_seq', 1, false);
+
+
+--
+-- Data for Name: community_notice; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY community_notice (num, title, created_date, hits, content, author_id) FROM stdin;
+1	Crescendo 베타테스트 설문조사	2016-12-07	38	베타테스트에 참여해주신 분들은 다음 설문조사에 성실하게 답변해주시길 바랍니다.\r\n감사합니다.\r\n\r\nhttp://goo.gl/bnxJ8y	2
+\.
+
+
+--
+-- Name: community_notice_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('community_notice_num_seq', 2, false);
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2016-12-06 19:13:27.397063+09	2	crescendo	2	[{"changed": {"fields": ["level", "score"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+2	2016-12-06 19:14:33.681649+09	2	admin	2	[{"changed": {"fields": ["username"]}}]	3	2
+3	2016-12-06 19:16:32.196437+09	1	10월 10일에 문제 2개 추가될 예정입니다	2	[{"changed": {"fields": ["created_date"]}}]	8	2
+4	2016-12-06 19:16:40.576684+09	2	10월 20일에 문제 3개 추가될 예정입니다	2	[{"changed": {"fields": ["created_date"]}}]	8	2
+5	2016-12-06 19:20:50.511416+09	1	포렌식개론	1	[{"added": {}}]	13	2
+6	2016-12-06 19:21:40.194928+09	2	포렌식 도구 소개	1	[{"added": {}}]	13	2
+7	2016-12-06 19:22:01.219087+09	3	증거 수집 방법	1	[{"added": {}}]	13	2
+8	2016-12-06 21:50:23.061717+09	19	Crash Dump Problem 01	2	[{"changed": {"fields": ["importance", "difficulty"]}}]	11	2
+9	2016-12-06 22:09:55.258498+09	29	File Delete Problem 02	2	[{"changed": {"fields": ["content"]}}]	11	2
+10	2016-12-06 22:10:07.984591+09	28	File Delete Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+11	2016-12-07 00:28:28.043058+09	2	10월 20일에 문제 3개 추가될 예정입니다	3		8	2
+12	2016-12-07 00:28:28.050189+09	1	10월 10일에 문제 2개 추가될 예정입니다	3		8	2
+13	2016-12-07 00:36:24.54139+09	1	자유게시판	3		9	2
+14	2016-12-07 00:36:34.546039+09	1	Question1	3		14	2
+15	2016-12-07 01:09:26.811186+09	2	1	3		8	2
+16	2016-12-08 13:46:48.278004+09	1	Memory Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+17	2016-12-08 14:14:42.627248+09	1	Scenario object	1	[{"added": {}}]	16	2
+18	2016-12-08 15:53:20.796474+09	27	Hidden File Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+19	2016-12-08 16:04:51.847872+09	15	Network Problem 01	2	[{"changed": {"fields": ["right_answer", "content"]}}]	11	2
+20	2016-12-09 19:33:20.026294+09	17	Web History Problem 01-1	2	[{"changed": {"fields": ["downfile", "content"]}}]	11	2
+21	2016-12-09 19:33:48.620648+09	18	Web History Problem 01-2	2	[{"changed": {"fields": ["downfile", "content"]}}]	11	2
+22	2016-12-09 23:57:58.081349+09	31	오늘은 국군의날	2	[{"changed": {"fields": ["tags"]}}]	11	2
+23	2016-12-11 17:09:35.662272+09	1	포렌식개론	2	[{"changed": {"fields": ["filelist"]}}]	13	2
+24	2016-12-11 19:31:42.974018+09	27	Hidden File Problem 01	2	[{"changed": {"fields": ["right_answer", "content"]}}]	11	2
+25	2016-12-11 19:32:00.065347+09	27	Hidden File Problem 01	2	[{"changed": {"fields": ["downfile"]}}]	11	2
+26	2016-12-11 19:37:23.595629+09	27	Hidden File Problem 01	2	[{"changed": {"fields": ["downfile"]}}]	11	2
+27	2016-12-11 20:41:41.098104+09	15	Network Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+28	2016-12-11 21:58:19.404035+09	2	취약점 테스트	3		14	2
+29	2016-12-11 22:09:27.286243+09	12	Shim Cache Problem 01	2	[{"changed": {"fields": ["submits", "corrects"]}}]	11	2
+30	2016-12-12 08:10:08.971879+09	21	5	3		12	2
+31	2016-12-12 08:10:08.977223+09	20	2	3		12	2
+32	2016-12-12 08:10:08.979586+09	19	1	3		12	2
+33	2016-12-12 08:10:08.981893+09	18	3	3		12	2
+34	2016-12-12 08:10:08.984082+09	17	2	3		12	2
+35	2016-12-12 08:10:08.986318+09	16	3	3		12	2
+36	2016-12-12 08:10:08.988588+09	15	1	3		12	2
+37	2016-12-12 08:10:08.990731+09	14	2	3		12	2
+38	2016-12-12 08:10:08.992839+09	13	1	3		12	2
+39	2016-12-12 08:10:08.994936+09	12	3	3		12	2
+40	2016-12-12 08:10:08.996955+09	11	2	3		12	2
+41	2016-12-12 08:10:08.99905+09	10	3	3		12	2
+42	2016-12-12 08:10:09.00116+09	9	2	3		12	2
+43	2016-12-12 08:10:09.003228+09	8	1	3		12	2
+44	2016-12-12 08:10:09.00532+09	7	1	3		12	2
+45	2016-12-12 08:10:09.007377+09	6	1	3		12	2
+46	2016-12-12 08:10:09.009465+09	5	1	3		12	2
+47	2016-12-12 08:10:09.011485+09	4	1	3		12	2
+48	2016-12-12 08:10:09.013478+09	3	1	3		12	2
+49	2016-12-12 18:00:38.537241+09	1	Memory Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+50	2016-12-12 18:08:18.858602+09	21	WER Problem 01	2	[{"changed": {"fields": ["right_answer", "content"]}}]	11	2
+51	2016-12-12 18:24:54.513639+09	21	WER Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+52	2016-12-12 18:46:33.89747+09	26	Stego Problem 01	2	[{"changed": {"fields": ["artifact"]}}]	11	2
+53	2016-12-12 18:46:54.851653+09	27	Hidden File Problem 01	2	[{"changed": {"fields": ["artifact"]}}]	11	2
+54	2016-12-12 18:47:05.204904+09	28	File Delete Problem 01	2	[{"changed": {"fields": ["artifact"]}}]	11	2
+55	2016-12-12 18:47:10.602697+09	29	File Delete Problem 02	2	[{"changed": {"fields": ["artifact"]}}]	11	2
+56	2016-12-12 18:54:16.840057+09	32	1	3		11	2
+57	2016-12-12 19:08:45.876734+09	19	chanhui	2	[{"changed": {"fields": ["is_staff", "is_superuser"]}}]	3	2
+58	2016-12-12 19:09:38.673227+09	19	chanhui	2	[{"changed": {"fields": ["first_name", "last_name"]}}]	3	2
+59	2016-12-12 19:16:52.869326+09	33	내가 누구일까요? (2)	2	[{"changed": {"fields": ["right_answer"]}}]	11	19
+60	2016-12-12 19:17:11.417111+09	34	내가 누구일까요? (3)	2	[{"changed": {"fields": ["right_answer"]}}]	11	19
+61	2016-12-12 19:18:29.781776+09	36	내가 누구일까요? (5)	2	[{"changed": {"fields": ["title"]}}]	11	19
+62	2016-12-12 19:18:33.870314+09	37	내가 누구일까요? (6)	2	[{"changed": {"fields": ["title"]}}]	11	19
+63	2016-12-12 19:23:04.831518+09	18	Web History Problem 01-2	2	[{"changed": {"fields": ["right_answer"]}}]	11	2
+64	2016-12-12 19:26:15.899292+09	17	Web History Problem 01-1	2	[{"changed": {"fields": ["downfile", "content"]}}]	11	2
+65	2016-12-12 19:26:43.181203+09	18	Web History Problem 01-2	2	[{"changed": {"fields": ["downfile", "content"]}}]	11	2
+66	2016-12-12 19:50:49.690232+09	19	chanhui	2	[{"changed": {"fields": ["score"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+67	2016-12-12 20:24:59.307789+09	42	Prefetch Problem 03	1	[{"added": {}}]	11	2
+68	2016-12-12 20:25:28.264947+09	42	Prefetch Problem 03	2	[{"changed": {"fields": ["importance", "difficulty"]}}]	11	2
+69	2016-12-12 20:25:36.12071+09	42	Prefetch Problem 03	3		11	2
+70	2016-12-12 20:32:40.739869+09	43	Prefetch Problem 03	1	[{"added": {}}]	11	2
+71	2016-12-12 20:33:09.948292+09	43	Prefetch Problem 03	2	[{"changed": {"fields": ["importance", "difficulty"]}}]	11	2
+72	2016-12-12 20:33:17.682661+09	43	Prefetch Problem 03	2	[{"changed": {"fields": ["level"]}}]	11	2
+73	2016-12-12 20:33:30.658975+09	43	Prefetch Problem 03	2	[{"changed": {"fields": ["submits", "corrects"]}}]	11	2
+74	2016-12-12 20:34:20.566818+09	43	Prefetch Problem 03	2	[{"changed": {"fields": ["importance", "difficulty"]}}]	11	2
+75	2016-12-12 21:03:49.189541+09	43	Prefetch Problem 03	2	[{"changed": {"fields": ["tags", "content"]}}]	11	2
+76	2016-12-12 21:10:23.616064+09	20	test2	3		3	2
+77	2016-12-12 21:22:49.856828+09	22	test1	3		3	2
+78	2016-12-12 21:22:49.861544+09	21	test2	3		3	2
+79	2016-12-12 21:24:26.471971+09	24	test1	3		3	2
+80	2016-12-13 17:52:51.906873+09	3	Prefetch Problem 02	2	[{"changed": {"fields": ["content"]}}]	11	2
+81	2016-12-13 18:27:27.613579+09	43	Prefetch Problem 03	2	[{"changed": {"fields": ["score"]}}]	11	2
+82	2016-12-14 08:30:52.354197+09	1	Scenario object	2	[{"changed": {"fields": ["answer_num", "answer11", "answer12"]}}]	16	2
+83	2016-12-14 08:33:20.282907+09	1	Scenario object	2	[{"changed": {"fields": ["answer1", "answer2", "answer3", "answer4", "answer5", "answer6", "answer7", "answer8", "answer9", "answer10"]}}]	16	2
+84	2016-12-14 09:16:33.839024+09	18	Web History Problem 01-2	2	[{"changed": {"fields": ["content"]}}]	11	2
+85	2016-12-14 16:39:16.380609+09	41	내가 누구일까요? (10)	2	[{"changed": {"fields": ["right_answer"]}}]	11	2
+86	2016-12-14 18:13:20.615112+09	1	Scenario object	2	[{"changed": {"fields": ["snum"]}}]	16	2
+87	2016-12-14 18:14:13.749879+09	1	Scenario object	2	[{"changed": {"fields": ["snum"]}}]	16	2
+88	2016-12-14 18:18:30.423052+09	3	Prefetch Problem 02	2	[{"changed": {"fields": ["content"]}}]	11	2
+89	2016-12-14 18:36:24.85953+09	18	Web History Problem 01-2	2	[{"changed": {"fields": ["downfile", "content"]}}]	11	2
+90	2016-12-14 18:37:17.108505+09	18	Web History Problem 01-2	2	[{"changed": {"fields": ["right_answer"]}}]	11	2
+91	2016-12-14 19:28:53.098367+09	15	Network Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+92	2016-12-14 19:56:01.324286+09	1	Scenario object	2	[{"changed": {"fields": ["snum", "score"]}}]	16	2
+93	2016-12-14 19:56:38.774288+09	2	Scenario object	1	[{"added": {}}]	16	2
+94	2016-12-14 20:03:25.770001+09	2	admin	2	[{"changed": {"fields": ["scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+95	2016-12-14 20:07:07.824239+09	1	test0	2	[{"changed": {"fields": ["scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+96	2016-12-14 20:36:39.208203+09	2	admin	2	[{"changed": {"fields": ["scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+97	2016-12-14 20:46:23.965556+09	2	Scenario object	2	[]	16	2
+98	2016-12-14 21:13:19.816897+09	2	admin	2	[{"changed": {"fields": ["scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+99	2016-12-14 21:13:48.373274+09	2	admin	2	[{"changed": {"fields": ["right_scenarios"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+100	2016-12-14 21:17:38.513134+09	2	admin	2	[{"changed": {"fields": ["right_scenarios", "scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+101	2016-12-14 21:23:58.808517+09	2	admin	2	[{"changed": {"fields": ["right_scenarios", "scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+102	2016-12-14 21:25:18.86199+09	2	admin	2	[{"changed": {"fields": ["right_scenarios", "scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+103	2016-12-14 21:36:14.576673+09	2	admin	2	[{"changed": {"fields": ["right_scenarios", "scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+104	2016-12-14 21:45:42.477117+09	2	admin	2	[{"changed": {"fields": ["scenario4"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+105	2016-12-14 22:10:04.56686+09	28	File Delete Problem 01	2	[{"changed": {"fields": ["right_answer"]}}]	11	2
+106	2016-12-14 22:20:10.021952+09	2	admin	2	[{"changed": {"fields": ["right_scenarios", "scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+107	2016-12-14 22:20:34.963729+09	28	File Delete Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+108	2016-12-14 22:21:08.1686+09	29	File Delete Problem 02	2	[{"changed": {"fields": ["content"]}}]	11	2
+109	2016-12-14 22:28:32.516281+09	2	admin	2	[{"changed": {"fields": ["right_problems"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+110	2016-12-14 22:28:45.967621+09	1	Scenario object	2	[{"changed": {"fields": ["score"]}}]	16	2
+111	2016-12-14 22:28:58.886296+09	1	Scenario object	2	[{"changed": {"fields": ["score"]}}]	16	2
+112	2016-12-14 23:38:59.472557+09	5	1	3		9	2
+113	2016-12-15 00:59:01.705912+09	1	1	1	[{"added": {}}]	18	2
+114	2016-12-15 01:03:15.428552+09	6	1	3		9	2
+115	2016-12-15 01:16:28.938636+09	3	1	3		18	2
+116	2016-12-15 01:19:50.963096+09	4	1	3		18	2
+117	2016-12-15 02:10:37.887935+09	7	2	3		18	2
+118	2016-12-15 02:10:37.898024+09	6	1	3		18	2
+119	2016-12-15 02:41:58.926904+09	2	admin	2	[{"changed": {"fields": ["right_scenarios", "scenario2"], "object": "UserProfile object", "name": "user profile"}}]	3	2
+120	2016-12-15 14:43:53.72587+09	3	Prefetch Problem 02	2	[{"changed": {"fields": ["content"]}}]	11	2
+121	2016-12-17 11:01:34.534633+09	259	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	3		12	2
+122	2016-12-17 11:01:34.541681+09	258	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	3		12	2
+123	2016-12-19 15:46:04.043049+09	1	Memory Problem 01	2	[{"changed": {"fields": ["downfile"]}}]	11	2
+124	2016-12-19 15:55:17.710697+09	13	Memory Problem 02	2	[{"changed": {"fields": ["downfile"]}}]	11	2
+125	2016-12-21 00:00:52.067288+09	15	Network Problem 01	2	[{"changed": {"fields": ["content"]}}]	11	2
+126	2016-12-21 00:00:56.615908+09	1	Memory Problem 01	2	[{"changed": {"fields": ["downfile"]}}]	11	2
+127	2016-12-21 00:01:39.596576+09	13	Memory Problem 02	2	[{"changed": {"fields": ["downfile"]}}]	11	2
+128	2016-12-21 02:34:08.530161+09	14	Memory Problem 03	2	[{"changed": {"fields": ["downfile"]}}]	11	2
+\.
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 128, true);
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	user
+4	auth	group
+5	contenttypes	contenttype
+6	sessions	session
+7	user_profile	userprofile
+8	community	notice
+9	community	freeboard
+10	community	comment_c
+11	problem	problem
+12	problem	answerlog
+13	document	document
+14	question	question
+15	question	comment
+16	problem	scenario
+17	community	comment_scenario
+18	community	community_scenario
+\.
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 18, true);
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2016-12-06 18:46:08.018189+09
+2	auth	0001_initial	2016-12-06 18:46:08.148501+09
+3	admin	0001_initial	2016-12-06 18:46:08.20149+09
+4	admin	0002_logentry_remove_auto_add	2016-12-06 18:46:08.221708+09
+5	contenttypes	0002_remove_content_type_name	2016-12-06 18:46:08.263892+09
+6	auth	0002_alter_permission_name_max_length	2016-12-06 18:46:08.288258+09
+7	auth	0003_alter_user_email_max_length	2016-12-06 18:46:08.314739+09
+8	auth	0004_alter_user_username_opts	2016-12-06 18:46:08.333492+09
+9	auth	0005_alter_user_last_login_null	2016-12-06 18:46:08.355684+09
+10	auth	0006_require_contenttypes_0002	2016-12-06 18:46:08.360856+09
+11	auth	0007_alter_validators_add_error_messages	2016-12-06 18:46:08.377381+09
+12	auth	0008_alter_user_username_max_length	2016-12-06 18:46:08.404217+09
+13	sessions	0001_initial	2016-12-06 18:46:08.432561+09
+14	user_profile	0001_initial	2016-12-06 18:46:08.458585+09
+15	community	0001_initial	2016-12-06 18:56:44.26304+09
+16	problem	0001_initial	2016-12-06 18:58:39.46195+09
+17	document	0001_initial	2016-12-06 19:08:09.328071+09
+18	question	0001_initial	2016-12-06 19:08:09.460428+09
+19	problem	0002_scenario	2016-12-08 14:09:20.56623+09
+20	problem	0003_auto_20161214_1838	2016-12-14 18:39:29.973934+09
+21	problem	0004_scenario_score	2016-12-14 18:39:29.986224+09
+22	user_profile	0002_auto_20161214_1838	2016-12-14 18:39:30.199081+09
+23	community	0002_auto_20161214_2351	2016-12-14 23:51:07.370363+09
+24	community	0003_auto_20161215_0108	2016-12-15 01:08:58.020114+09
+25	community	0004_auto_20161215_0208	2016-12-15 02:08:35.86309+09
+\.
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_migrations_id_seq', 25, true);
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_session (session_key, session_data, expire_date) FROM stdin;
+ivmicxrpc5gj6f704wvo4bkcy9q02z4m	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-26 00:29:45.209809+09
+1x539ofzpsfno5unyce43eisqje6cyat	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-26 01:11:23.985293+09
+wkdoxhw5z0xweo3m0cfsphy9eurlnebv	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-26 06:54:27.962127+09
+0tyzelbbxgw2ugb0s6i3lhy7dqrfj95a	OTgxZTIyZjdlNmQ0N2FjOGY5MjkzMzFmMmVkNGE3NzZmZDk1NzA3YTp7Il9hdXRoX3VzZXJfaGFzaCI6IjNjMzBjNDRlYjRjMGYwMjI1YjFkNDExZTdkNzhkMjM4MDM0Y2IwNmEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-20 23:19:39.258151+09
+vnydjgcz9oxe9w3adtfrrasmv9v5eyzu	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-20 23:27:47.557498+09
+n74ka0it33xx2dwm5idbmopirn1de3u2	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-21 07:40:47.382827+09
+3emvp4ufd88veb0haz0wkl8vlq2vysrs	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-22 11:11:57.959405+09
+p97xgql3lvupojn8sqqkc4h3ynxf0jni	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-22 13:46:12.656365+09
+urmope1hdq8ncf4nza6xz3iitky9vd9h	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-22 21:16:41.459652+09
+bnrai1ngjrxasbm68vcfdze5fvsp82x9	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-23 02:14:13.97389+09
+zbq2xsar8v31om146d61wa7d9ruraxi9	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-23 12:33:10.072098+09
+x3u29atoqt1cwroymm5yresnmvdktdx4	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-23 12:58:06.047849+09
+hvdmh59w5gcq5x9htcrurmbtn5cfijjj	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-23 17:14:38.642158+09
+ejjsvor5k1bny3tfh4qioqdai5c548li	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-23 19:32:20.654284+09
+iewhw6y266r5cbptr8anqlmyak4csxke	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-23 23:22:55.139141+09
+mbzvmn8fp63d3ozl2phw0s67tl4qozcl	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-24 14:47:31.214359+09
+p2xirf9lbpzq6x2s4jqgvpafc3ep48if	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-24 20:12:39.560013+09
+h5tft89ohrt2s1yjazzb974eoag2c3ds	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-25 03:34:02.061833+09
+4kh0bglm9z040n04i5jkpxhofhzrm59b	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-25 14:15:05.70096+09
+wp5ncnw8ejb5ixpfnuee91ane78ax9jg	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-25 16:30:00.498831+09
+jy82hmuqo211nlj0cpy0unhxj0p06bsb	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-25 16:51:16.236757+09
+tixcedng080zphrp1sd122ev4n5zxt7j	NGFhYzMwZTg4MzM3YTdmNzNmZDM1ZjE5ZjNlZDE0YTUyM2E0M2YwZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZWQyZDZmNzQ0ZDg3YTVhMWRlMmZkMTE5YzEzODkzYmM0OGYyNjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI0In0=	2016-12-25 19:04:47.580489+09
+me6kh405u96rl6kba85jm1auc1vxkwxl	OWRmYWU5NGJiMjA1ZGVmMmJlMTMwY2Y3YjhjMTRmZWRiZjM2MTU4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6ImMyNWUzYmVjM2ExMzIzNmUzMGU4MjcyOGMyNzZjMjIxZDk0ZjRlYmMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI2In0=	2016-12-25 19:21:09.052201+09
+ym8w2pbqo7p02zjo10imhbcfiy7gg8pk	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-25 19:23:29.355496+09
+cbbvhvzvb60e68pvbicttigqqvi0mnb5	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-25 19:26:39.30822+09
+3doc558ihdvwqj9ak86vex5igkuuf12z	M2JkY2JiYzdlOGJiM2I0ZmQzMDU0YWY0NjAwMDlhZDRlMjExMWY3NDp7Il9hdXRoX3VzZXJfaGFzaCI6IjI2NzE0MGJmZDM4YjkyNWFjOTYyM2UzNzY5OTM2ZjhhNjJiMDM2YWMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMyJ9	2016-12-26 01:03:21.206598+09
+stftt8y5y5iuczs818i844zyjywz0diw	OWFjZTlkMDNjNzkyNjIwYjljMzQ3MDBkY2FmY2ZiMzkzMGIzOWVjYjp7Il9hdXRoX3VzZXJfaGFzaCI6IjEwYTY3NjJiNTRiZTc4MjA4Y2Q1NTE3ZGZkMGJhOGZmNTRhNTRlY2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI1In0=	2016-12-25 19:28:34.033747+09
+0rdqqsxhzs7xr08f4oqt87h2wzk3goeu	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-25 19:29:40.075629+09
+qa8h2gz96yxqsqs0yxlvmcel99pg851n	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-26 03:05:35.803669+09
+kwqbvoaiaqs3v0dybd3bffd9s2j8se9o	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-25 19:31:05.655006+09
+5uywd1dkrlzdogfkef3v8vq6mdd20cyg	MjU2ODU5ZDgyZmU3NzVhNDc5NTk3NjI0ZDVmOTU5NDRhYjlmMGRmNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjViYTU0YmZjNDNmM2UzM2VmMDdiZWVlNzRkZWZiMzNmNmQ1ZDhiZjAiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxNSJ9	2016-12-26 11:08:57.005262+09
+3tsc92r70jog3dd83k06t9zs86u7qcs1	Y2E3NGNhZThhYWJiYzhlZDY4OTU5M2ZmMGMxN2I1MTNjY2JlNzkwNTp7Il9hdXRoX3VzZXJfaGFzaCI6Ijg0NmM4MmY5ZmFlMDkwZDAxNjk2NzlhMjhhZDJkOWYwN2JmZGJiZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI3In0=	2016-12-25 19:38:54.930275+09
+lco97fpodqxqvdy30tori8h1t7e2ms6k	NDJhNjE2MWE5NzMzM2ZkYzE1NDhhYzg2NDYxY2NiMTA3MDMyMGJmMzp7Il9hdXRoX3VzZXJfaGFzaCI6IjNhOTVmMjBkYTMwNWI4Njg5NWNhYjg5YTczMmUwNjYxNTE1NzQyNzgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxNiJ9	2016-12-26 11:17:42.571197+09
+dvj3rina363s7ygn5rp79mhynmwks93i	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-25 19:48:15.557442+09
+037t4br1j4p7677pkoxy8dqk4fa3kvns	MjU2ODU5ZDgyZmU3NzVhNDc5NTk3NjI0ZDVmOTU5NDRhYjlmMGRmNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjViYTU0YmZjNDNmM2UzM2VmMDdiZWVlNzRkZWZiMzNmNmQ1ZDhiZjAiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxNSJ9	2016-12-26 11:30:47.274123+09
+37nu7y9bki190eyj0gkk9plbbbjusgk6	OWFjZTlkMDNjNzkyNjIwYjljMzQ3MDBkY2FmY2ZiMzkzMGIzOWVjYjp7Il9hdXRoX3VzZXJfaGFzaCI6IjEwYTY3NjJiNTRiZTc4MjA4Y2Q1NTE3ZGZkMGJhOGZmNTRhNTRlY2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI1In0=	2016-12-25 19:53:39.011358+09
+v065hvjbolb3j5gk557je2ky0lgyumu0	NjEzOGZmZTI5NWMxOTQyMjFkMzZkNGJkOGI3M2VlZDgxZjVmNzI0OTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJhNzQ1NzNkOTYzYjIwZGY3MTIxZDM5NDQ5MjdhOGNiZDYzYTIxNDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI4In0=	2016-12-25 20:09:24.708317+09
+c7firelugcgu7hc0fxflw1yzb1fbx4tb	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-26 12:33:57.452619+09
+p86d6aji96ot9nw9tfhj97554n3wmdds	YWM2N2VmODg3NmMyMTMwY2E0NDcwMjFiZjcwNzU3OTZjN2I3YmU0ZTp7Il9hdXRoX3VzZXJfaGFzaCI6ImFmMTZhYzRlMjZkZGIxYjU0M2E1NTk3NmMwZDAwMzgzZWY3MmYwYzUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI5In0=	2016-12-25 20:12:35.767437+09
+2mfawvl9ea72wdh2456g318ckxeuqu2j	OWFjZTlkMDNjNzkyNjIwYjljMzQ3MDBkY2FmY2ZiMzkzMGIzOWVjYjp7Il9hdXRoX3VzZXJfaGFzaCI6IjEwYTY3NjJiNTRiZTc4MjA4Y2Q1NTE3ZGZkMGJhOGZmNTRhNTRlY2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI1In0=	2016-12-25 20:20:26.768417+09
+89io26t7fyhfn6baftgyk6p858pyhhtq	NWMwZTc1NjQ0NzY1ZGU2MzMyMzJkNGNkM2U1NmQ5OGI5M2E2NTBkYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ5MDUxNGVhYTFiMTc0OTRmY2ViODJlMGZkODhjYzRjNmIzZjliODciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-12-26 13:09:07.428399+09
+d5nnwhix2xb6p26009gwvyq4qz6gnn6j	YjQ0NmIyNmVlYTE2YmNmZmQ2NTEyM2Y1NDI4ZjM2NWQ3MzAyMDcwODp7Il9hdXRoX3VzZXJfaGFzaCI6IjE0YzJmYzI5MGU4ZThmYTliZjcxZTg3YTEzYTljYzYyYzA4ZmQ1OGUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMCJ9	2016-12-25 22:24:57.943292+09
+1hfcirg11laa2i2awmqpujxx4o796xww	NTYzMmUwYjI3ZWM4YjJkN2M0MDFkNzgwMWZjNWY5MmZiMmExNzdkMDp7Il9hdXRoX3VzZXJfaGFzaCI6IjQ2YmIzODgxODJiMGE5MTg4NGYwMjcyMTM4ZjQ0OGJmN2YyZDRhMmUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMSJ9	2016-12-25 22:48:49.982401+09
+34ncit2fsr3e1tg9gdsavkxsc5ndnwsn	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-26 14:24:00.667042+09
+q5kdt8znblo3qlkl8vtrbihm8u7tdy6l	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-25 22:49:41.377835+09
+fxllxx2noa6nh5bmvzub8mim2ci7g8j1	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-26 00:16:41.415835+09
+ikp5qdswa1cjxhpxhjqrykqrleinqrzk	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-28 11:22:43.496236+09
+531ov4ba06td6cgh9ketr9qqudrko95d	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-26 17:29:53.189161+09
+calnwor3svo80omkrjzhud8ieqilwy00	OWFjZTlkMDNjNzkyNjIwYjljMzQ3MDBkY2FmY2ZiMzkzMGIzOWVjYjp7Il9hdXRoX3VzZXJfaGFzaCI6IjEwYTY3NjJiNTRiZTc4MjA4Y2Q1NTE3ZGZkMGJhOGZmNTRhNTRlY2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI1In0=	2016-12-26 17:36:16.156386+09
+av72vcb3fanwoim180f6id2zd6m6ripz	OWFjZTlkMDNjNzkyNjIwYjljMzQ3MDBkY2FmY2ZiMzkzMGIzOWVjYjp7Il9hdXRoX3VzZXJfaGFzaCI6IjEwYTY3NjJiNTRiZTc4MjA4Y2Q1NTE3ZGZkMGJhOGZmNTRhNTRlY2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI1In0=	2016-12-26 17:45:02.875565+09
+fqoutmyr7ef79zchm7jrbfq55vfisd44	OGZmZTczMDRkYjc3ZjlkNzUwMmM2ZTFkYzk3NjJmMGYxMTMyMTFmZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjBkYWM0OTJmODgxNGQ3MDFkMTlmMGE4YWU1Mzg1M2M0YTY3MDcyN2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxNyJ9	2016-12-26 17:48:15.454897+09
+oc9aoqc49g1au23hq5yiwedtj5bwffzn	YmY1MzZkMTI5MGJkOWNjMTlhM2QxZWU4NGM0NWQxZWRkMGRjNGMwNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjViN2YzMDk1ZjlhYjQ0MDcwZTFlZDYxYmU0MjJhYTkxZTJkNDJkNGIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOCJ9	2016-12-26 18:04:41.694817+09
+7txdsg2es330kmbn0u8dyccmf7v7k8hs	NDJhNjE2MWE5NzMzM2ZkYzE1NDhhYzg2NDYxY2NiMTA3MDMyMGJmMzp7Il9hdXRoX3VzZXJfaGFzaCI6IjNhOTVmMjBkYTMwNWI4Njg5NWNhYjg5YTczMmUwNjYxNTE1NzQyNzgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxNiJ9	2016-12-26 18:47:42.583705+09
+8by54j9rz8iq2gkhlylzrzsy8f5lw27d	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-26 19:09:54.059563+09
+dr9kf4gvwomifk5pk9k9g35a1zyeryn3	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-26 20:21:45.886634+09
+d2g0jtq1ksl7hjasedi0vwlzsk3ef9f7	NGFhYzMwZTg4MzM3YTdmNzNmZDM1ZjE5ZjNlZDE0YTUyM2E0M2YwZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZWQyZDZmNzQ0ZDg3YTVhMWRlMmZkMTE5YzEzODkzYmM0OGYyNjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI0In0=	2016-12-26 20:52:18.809907+09
+gif6np77wq3j6tlyslm6ioolso0tm86f	Y2RhNzRhNjNiMTVmMTQ0NzA2MmI2YzBlYWQwNWZhMGZhN2NhZDc2OTp7Il9hdXRoX3VzZXJfaGFzaCI6ImU2NGQ2MTExYzZhM2U3OTBmYWI1MzA2ZGJkYzk2ZWExYzBlYjE0YzQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyMyJ9	2016-12-26 21:23:49.266675+09
+yv08ujijfxceaq7nsa392egube0z8w8y	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 02:09:08.081446+09
+xg9nya402hpfz9f5frz10sesw727fpsr	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 07:15:22.747423+09
+ex57gqxj2ikta0il68l3klz0859rhm5m	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 08:49:44.467496+09
+pxrb1iwg2oaffowmho7dzsgseasy60kk	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 12:34:24.720851+09
+9ne5p24s821qvii53e15bczduzg2pazg	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 14:13:36.928824+09
+iapr3zy5riipgdouobnl8ocpjbnyshw6	NGFhYzMwZTg4MzM3YTdmNzNmZDM1ZjE5ZjNlZDE0YTUyM2E0M2YwZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZWQyZDZmNzQ0ZDg3YTVhMWRlMmZkMTE5YzEzODkzYmM0OGYyNjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI0In0=	2016-12-27 17:07:19.672352+09
+vwprbc670ilv53xkgfvqh1njh8ptprst	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-27 17:33:45.813688+09
+pdh68ge27dlparig9q0i97k2wb0oe0m1	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 17:45:18.619985+09
+7zbeba30k1g0xsz0wj0gbsqth1wn07sh	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 17:49:56.534517+09
+4cykq6qnzasm3uc3zmg0qkhrj54z0rnb	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-27 17:58:24.292137+09
+973dhxs0iehaccb7zwcw0t9ul5aebthg	NTYzMmUwYjI3ZWM4YjJkN2M0MDFkNzgwMWZjNWY5MmZiMmExNzdkMDp7Il9hdXRoX3VzZXJfaGFzaCI6IjQ2YmIzODgxODJiMGE5MTg4NGYwMjcyMTM4ZjQ0OGJmN2YyZDRhMmUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMSJ9	2016-12-27 20:34:48.930031+09
+jh6sfodsvx5cq25grk5kriedv6tskr7l	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-28 07:51:00.355261+09
+fshvz5p1riqtzowc3pm0tbs2vb6337zh	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-28 11:33:36.11234+09
+x8igbicmp0imj8dhi0r4zxldvp2aa60u	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-31 12:24:04.243367+09
+5aflqss68fl1mfz18q6s5iksom29wd1v	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-28 13:12:24.963194+09
+s6ef7dcfhtk953bp1h6hmcrlraj4omqk	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-31 13:20:41.029169+09
+23v2ia1c0jzywgak3b1mz9j8q86mqfh8	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-31 13:43:23.420382+09
+pzo31c0pxxjh6n37tr6btcnh4g813pwr	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-31 15:59:53.466335+09
+f13stf73ua0hfh6c8nnzp8r6emxlu7pd	OWFjZTlkMDNjNzkyNjIwYjljMzQ3MDBkY2FmY2ZiMzkzMGIzOWVjYjp7Il9hdXRoX3VzZXJfaGFzaCI6IjEwYTY3NjJiNTRiZTc4MjA4Y2Q1NTE3ZGZkMGJhOGZmNTRhNTRlY2IiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI1In0=	2016-12-28 17:21:43.224854+09
+e0pna3d78d0spgizrwhqr9wfukca9elu	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-31 20:43:01.491327+09
+ssdctrk86wm7d8mxg1kzyq6ca2845gdz	OWRmYWU5NGJiMjA1ZGVmMmJlMTMwY2Y3YjhjMTRmZWRiZjM2MTU4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6ImMyNWUzYmVjM2ExMzIzNmUzMGU4MjcyOGMyNzZjMjIxZDk0ZjRlYmMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI2In0=	2016-12-28 17:59:40.868806+09
+2h18egcakilyg3rw8pmubmo5j31kafd3	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-01 21:56:15.274688+09
+62x4b71999wdjxatv6d14v8myvotoj0m	MDllOTdjZTQ1MzdmYjVmYzgyMzZlMzM3YzU0NjM3MmE3YjM3MGRjYjp7Il9hdXRoX3VzZXJfaGFzaCI6IjVmZDJmODlhZjM4ZjM5OWZjNTIwODA1OWFiYjdmNzk5NDM4NTc4YmYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyNSJ9	2016-12-28 18:00:19.266718+09
+kdz7ok4l5t1kg5orczfafu0jffshbbww	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-01 22:26:50.833529+09
+u8v9nabv1lx8dnot4c1fsfkvnqjh67bp	OWRmYWU5NGJiMjA1ZGVmMmJlMTMwY2Y3YjhjMTRmZWRiZjM2MTU4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6ImMyNWUzYmVjM2ExMzIzNmUzMGU4MjcyOGMyNzZjMjIxZDk0ZjRlYmMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI2In0=	2016-12-28 18:00:33.676428+09
+1fhqa7lddkt70wj60e4g32t3bvsjg2xt	ZjE0ZDZjZmY4NDIzNzE0YzZiNDE2ODVkZDkxZDhiZDRhOWQ3YTdmZDp7Il9hdXRoX3VzZXJfaGFzaCI6ImUyMzFlMjlhNjIxN2JiODFmOTczMjUwZjFiZGZiNDE5NWRhMGNjODEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzMyJ9	2017-01-02 11:14:57.403115+09
+pcuhk3pyyd8luapfwm6xpg5gjylrr0wm	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-02 15:19:26.265797+09
+ihnpd064h88aurqsqr5svbcuak9s5uw4	NjNiODBmOGVhZDVmOWIwNzEyMzRiZDFhNGU1ZWMzMGQ2MDRkNzNkMjp7Il9hdXRoX3VzZXJfaGFzaCI6IjQwNDI2ODJlYWM1MzllNmZmZjdmNmY5Njc3MTgwYzkxZGQ1YzNmNGMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyNiJ9	2016-12-28 18:00:54.363169+09
+ix4zn8yp4abry4k76ycwkvo8mbfoc30d	NDJhNjE2MWE5NzMzM2ZkYzE1NDhhYzg2NDYxY2NiMTA3MDMyMGJmMzp7Il9hdXRoX3VzZXJfaGFzaCI6IjNhOTVmMjBkYTMwNWI4Njg5NWNhYjg5YTczMmUwNjYxNTE1NzQyNzgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxNiJ9	2017-01-03 11:46:27.010308+09
+618r3407uc5uinff1n1vouzci5g3n1hf	YjU1YWQ2NTYxZjdkM2ZmNGI1ZDBlM2MwZjljYTcxZDRkNjdhYzZkNTp7Il9hdXRoX3VzZXJfaGFzaCI6ImUzNDJkMWNlNjk5NzliZjhhOGJhNzVmOTQ1OWE5ODhlOWJkNDMwMjQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyNyJ9	2016-12-28 18:07:19.379905+09
+128hoycr7dq5gpg6d2pd6dpezud64fzq	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-28 18:12:29.832434+09
+obrk3j7e2w7e3k7r6aabhhlil301ro9c	OWRmYWU5NGJiMjA1ZGVmMmJlMTMwY2Y3YjhjMTRmZWRiZjM2MTU4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6ImMyNWUzYmVjM2ExMzIzNmUzMGU4MjcyOGMyNzZjMjIxZDk0ZjRlYmMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI2In0=	2017-01-03 17:08:06.213123+09
+rktmf0xwelpbgqljam4bzh9ka1kvx1k0	ODQ3NTUzNzg2ZWNiOTUwZGJiMTEwZTBhN2NhMTg3YTQyNWFkOWM5ZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjEzYWIwYWUxYTgwN2NlNGUxM2IwNTMyZDI3ODFiMDk3MWE1ZTZiMzMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyOCJ9	2016-12-28 18:13:46.508856+09
+c38opjfdv3a76iyqtbqa6v37h8agoazm	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2017-01-03 17:45:12.535529+09
+305p4gbfwreo2hqqquk1g0bpqo6p2ag9	ZDIwMDMyMDYxMDUzM2NmNzg5YjdjYzYwY2I1YTQwMDg4YjQwZTRjYzp7Il9hdXRoX3VzZXJfaGFzaCI6IjQxMjI5NGI3MWNlNjVhYWE5OTBiYmE2YmRkOTkyYjgxMTczODg0ZTUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyOSJ9	2016-12-28 18:43:43.539331+09
+bam1hd5e9uq4lgy9uugyj8xyyjt4lnre	YmY1MzZkMTI5MGJkOWNjMTlhM2QxZWU4NGM0NWQxZWRkMGRjNGMwNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjViN2YzMDk1ZjlhYjQ0MDcwZTFlZDYxYmU0MjJhYTkxZTJkNDJkNGIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOCJ9	2017-01-03 23:20:41.957028+09
+cthm24n73dtn9kzenli80rm75qgy1bkv	ODQ3NTUzNzg2ZWNiOTUwZGJiMTEwZTBhN2NhMTg3YTQyNWFkOWM5ZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjEzYWIwYWUxYTgwN2NlNGUxM2IwNTMyZDI3ODFiMDk3MWE1ZTZiMzMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyOCJ9	2016-12-28 18:59:25.958381+09
+ez61x0izqfggzhoptr9etovl3zyui1dj	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-03 23:40:09.669032+09
+ooax0df2gs9xkrqg81ligit0c1xhax02	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-28 19:24:26.018375+09
+rcjfgskze9k9dh9fesw1fibfmcy4cxkh	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-03 23:58:31.256926+09
+0egxnt4r7buq28axd7ccd82kkiakdeib	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-04 01:28:04.107856+09
+p0wo7c4xatm45d12dwj04f2fqez55dqb	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-04 02:32:54.659154+09
+q5ma0sbbtd3a5w5yzrklz2mvgxp80sm3	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2017-01-04 03:17:47.309005+09
+9ia4tmecmmpoeglznnc8g9wogqpuerly	NGFhYzMwZTg4MzM3YTdmNzNmZDM1ZjE5ZjNlZDE0YTUyM2E0M2YwZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZWQyZDZmNzQ0ZDg3YTVhMWRlMmZkMTE5YzEzODkzYmM0OGYyNjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI0In0=	2016-12-29 01:05:51.283126+09
+eciwerz9xajmhvcg4chvqdhkvi2n3241	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2017-01-04 13:50:58.429587+09
+ce7zol2f2ok62e8xvo9cbryjbspaty5x	OWRmYWU5NGJiMjA1ZGVmMmJlMTMwY2Y3YjhjMTRmZWRiZjM2MTU4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6ImMyNWUzYmVjM2ExMzIzNmUzMGU4MjcyOGMyNzZjMjIxZDk0ZjRlYmMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI2In0=	2017-01-04 14:03:55.559865+09
+89nz4jaa5phusb8ni1hbjiifazd4bgt8	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-29 07:46:08.018823+09
+i9ajyn9smcq1n0yl0mlg5pbkv68i3osr	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-29 10:01:43.812579+09
+ptvul5lqs4nf9m2u77ynp27x6e2vvlef	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-29 11:56:33.177207+09
+zn1sxjfeqysyy2yzhbk1r3b2aylkbb5z	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-29 14:22:24.755799+09
+e8rcivgk236qew2zui0rnb7zpcq6qn4j	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-29 17:17:53.331215+09
+0yy1lohp8vghucae0z44wl8aif7qzrul	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-29 17:45:48.155437+09
+x68co84qlrkqwljub8dkt4rxuogufmek	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-29 23:20:31.710803+09
+q4qmk164y2s8y9h8gie1t8a9tb7nd3v1	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-30 00:31:17.371853+09
+5604h5ukcqtjy6jb16o6xfqmz2zib3mb	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-30 01:44:08.051257+09
+xfi1g3n5y5kn66f8x39hccmb15ma68le	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-30 04:04:00.488455+09
+1ts0ifct53owkgur7hghvs3agx9gd272	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-30 04:04:38.128039+09
+0oharjf1jodo22mpjbyv9ojiwtqtu05c	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-30 04:09:43.72723+09
+heyg4on8s08acwfcav3jof8cz0xu5tv9	Zjc1OTA0ZTNlMDY0YzQ0NzdmYzE0MGY2M2JhNzU3MmI0MTlhMThhNDp7Il9hdXRoX3VzZXJfaGFzaCI6IjZlMTFkMjBiNDk5MjI4YWM1YmJiODM0ZDVjNzliMmNmOWFkZTRmY2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=	2016-12-30 06:56:15.725785+09
+84cg0g114rlmw7skmu63vlxl4r59v7fk	NGFhYzMwZTg4MzM3YTdmNzNmZDM1ZjE5ZjNlZDE0YTUyM2E0M2YwZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjJmZWQyZDZmNzQ0ZDg3YTVhMWRlMmZkMTE5YzEzODkzYmM0OGYyNjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiI0In0=	2016-12-30 10:38:50.573457+09
+ql3qic1rtbnd5gr8u1n1bfs1khkvn22u	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-30 11:23:51.389245+09
+trarhggj6268p5ig5yvrnlcqf4pgiwav	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-30 13:57:12.474932+09
+kgqbpsvfh37l6z8z5n0xpa3f3fsp512z	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-30 16:23:50.492468+09
+aqyv9ivreglmpuff17lz12j33br2m5jz	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-30 21:04:03.082926+09
+g6nx86gizh5lgex0wxzfuvpwpwwy8lij	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-30 21:38:52.368321+09
+eb924ttdm7ljh37uf7ejpw7cuaovjwed	NjQyZmE0NTA4NDhlYWVjZGJmMTMzNTM3ZTg4NTQyYzI0MjA1MDg4Yzp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkMGViZTAwMTE4ZGZhZWQxZWQxMjgyMWM3M2NjMTliNzc1ZjkzZDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxMiJ9	2016-12-30 23:33:58.504686+09
+leewn919rwx67gcctvlhzswujrhq56qx	Yzk0OGUxYjFkOGQwYWI5Y2ZmMDRjYjdmOWQ2NDlkYmM5MDU0MmZmMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjE4YmY1MTY2MzJlNDA4YjdjM2FiZGZkYmNiNTZkMmJiZTA1MGEwYWUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzMSJ9	2016-12-31 01:46:03.821186+09
+fmj2yav94h57zgg0mx0lqjd332cb8t8i	M2E3NDkwYTgxMjNhMmM2NTgyMTMyY2JlNWJhNzZlY2UxZDgzN2MzMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjVhOTQxNjBhM2RkODExNDRkNGRmMWQxZDdjNjBmMmM3NTc5M2MzMmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxOSJ9	2016-12-31 10:25:00.469696+09
+dq16c8icqblm60jjackus5u772oespce	N2MyMzg3NmI1YmNjZTE2MDYwZmFkMzQ3MTE5NWY1ZTMyYzFiYjA5Mjp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0YzhhY2E0ODlhZmExOGRiM2I1MTliYTdlYmRkYjlmNDVhMDAxZTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIzIn0=	2016-12-31 11:35:28.447138+09
+\.
+
+
+--
+-- Data for Name: document_document; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY document_document (num, title, created_date, filelist, author_id) FROM stdin;
+2	포렌식 도구 소개	2016-11-15		2
+3	증거 수집 방법	2016-11-26		2
+1	포렌식개론	2016-11-05	intro1.pdf/intro2.pdf	2
+\.
+
+
+--
+-- Name: document_document_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('document_document_num_seq', 3, true);
+
+
+--
+-- Data for Name: problem_answerlog; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY problem_answerlog (num, problem_num, problem_title, submit_answer, submit_date, submitter_id) FROM stdin;
+1	28	File Delete Problem 01	60a1f926-c87c-45d3-a4ff-be0ecbfc7caa	2016-12-06 22:10:30.370458+09	2
+2	29	File Delete Problem 02	60a1f926-c87c-45d3-a4ff-be0ecbfc7caa	2016-12-06 22:10:44.24645+09	2
+22	7	LNK Problem 01	grandmother	2016-12-11 18:04:03.151044+09	2
+23	15	Network Problem 01	ARPSPOOFING_192.168.208.1_00:50:56:C0:00:08	2016-12-11 19:32:13.603307+09	5
+24	15	Network Problem 01	ARPSPOOFING_192.168.208.129_01:00:5e:00:00:01	2016-12-11 19:55:50.55374+09	5
+25	15	Network Problem 01	ARPSPOOFING_192.168.208.129_00:0C:29:A5:33:5C	2016-12-11 19:57:57.923562+09	5
+26	15	Network Problem 01	(ARPSPOOFING)_192.168.208.129_00:0C:29:A5:33:5C	2016-12-11 19:59:06.925033+09	5
+27	15	Network Problem 01	ARPSPOOFING_192.168.208.254_00:0C:29:A5:33:5C	2016-12-11 20:00:06.009695+09	5
+28	15	Network Problem 01	ARPSPOOFING_192.168.208.129_00:0C:29:A5:33:5C	2016-12-11 20:05:33.711462+09	5
+29	19	Crash Dump Problem 01	ACCESSERROR	2016-12-11 20:09:37.326243+09	5
+30	19	Crash Dump Problem 01	ACCESSVIOLATION	2016-12-11 20:10:32.503977+09	5
+31	19	Crash Dump Problem 01	ACCESS VIOLATION	2016-12-11 20:11:42.419314+09	5
+32	15	Network Problem 01	ARP SPOOFING_192.168.208.129_00:0C:29:A5:33:5C	2016-12-11 20:12:11.974938+09	5
+33	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE	2016-12-11 20:21:53.806535+09	9
+34	12	Shim Cache Problem 01	starcraft	2016-12-11 20:21:59.088959+09	5
+35	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-11 20:22:51.076497+09	9
+36	26	Stego Problem 01	5826	2016-12-11 20:22:53.047792+09	5
+37	26	Stego Problem 01	5826	2016-12-11 20:26:24.719624+09	5
+38	26	Stego Problem 01	CD765B729379BB0FF7D563CB5CA12D62AB1CD104	2016-12-11 20:29:01.36115+09	5
+39	12	Shim Cache Problem 01	starcraft	2016-12-11 22:07:45.183988+09	2
+40	2	Prefetch Problem 01	1780102_0x00000017	2016-12-12 01:19:37.414532+09	12
+41	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_SOLITAIRE.EXE	2016-12-12 01:34:11.551706+09	12
+42	3	Prefetch Problem 02	WORK DOCUMNET.EXE_4_SOLITAIRE.EXE	2016-12-12 01:35:28.693378+09	12
+43	3	Prefetch Problem 02	WORK DOCUMNET.ZIP_4_SOLITAIRE.EXE	2016-12-12 01:35:40.010748+09	12
+44	3	Prefetch Problem 02	WORK DOCUMNET.ZIP_4_SOLITAIRE.EXE	2016-12-12 01:36:43.231679+09	12
+45	3	Prefetch Problem 02	WORK DOCUMNET_4_SOLITAIRE	2016-12-12 01:36:54.160818+09	12
+46	3	Prefetch Problem 02	WORK DOCUMNET.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 01:39:27.174165+09	12
+47	3	Prefetch Problem 02	WORKDOCUMNET.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 01:42:39.147332+09	12
+48	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 01:44:32.892143+09	12
+49	3	Prefetch Problem 02	WORKDOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 01:46:02.76284+09	12
+50	12	Shim Cache Problem 01	starcraft	2016-12-12 02:11:26.229942+09	12
+51	2	Prefetch Problem 01	1780102__0x00000017	2016-12-12 08:47:36.988641+09	4
+52	2	Prefetch Problem 01	1781760__0x00000017	2016-12-12 08:48:24.620748+09	4
+53	2	Prefetch Problem 01	1781760_0x00000017	2016-12-12 08:48:44.425082+09	4
+54	2	Prefetch Problem 01	1780102_0x00000017	2016-12-12 08:50:18.712963+09	4
+55	24	MFT Problem 01	d	2016-12-12 10:09:11.551394+09	14
+56	1	Memory Problem 01	IEXPLORE.EXE_IEXPLORE.EXE	2016-12-12 17:46:37.009128+09	16
+57	1	Memory Problem 01	wmiprvse.exe_svchost.exe	2016-12-12 17:46:58.659265+09	16
+58	1	Memory Problem 01	svchost.exe_IEXPLORE.EXE	2016-12-12 17:47:32.939317+09	16
+59	1	Memory Problem 01	services.exe_alg.exe	2016-12-12 17:48:09.314558+09	16
+60	1	Memory Problem 01	vmacthlp.exe_services.exe	2016-12-12 17:49:19.780589+09	16
+61	1	Memory Problem 01	explorer.exe_rundll32.exe	2016-12-12 17:50:11.48585+09	16
+62	1	Memory Problem 01	explorer.exe_tcpview.exe	2016-12-12 17:51:09.397027+09	16
+63	1	Memory Problem 01	explorer.exe_DumpIt.exe	2016-12-12 17:51:26.285967+09	16
+64	15	Network Problem 01	ARPSPOOFING_192.168.208.129_000C29A5335C	2016-12-12 17:51:47.436697+09	5
+65	21	WER Problem 01	2011-06-30 07:44:38	2016-12-12 18:01:04.380158+09	5
+66	21	WER Problem 01	2011-06-30 19:44:38	2016-12-12 18:01:32.076286+09	5
+67	21	WER Problem 01	2015-12-11 20:26:24	2016-12-12 18:18:08.585029+09	5
+68	21	WER Problem 01	2015-12-11 8:26:26	2016-12-12 18:19:13.118736+09	5
+69	21	WER Problem 01	2015-12-11 20:26:26	2016-12-12 18:19:39.627695+09	5
+70	21	WER Problem 01	a	2016-12-12 18:20:46.285546+09	5
+71	1	Memory Problem 01	chrome.exe_chrome.exe	2016-12-12 18:25:23.36034+09	16
+72	21	WER Problem 01	2015-12-11 11:26:26	2016-12-12 18:27:52.925264+09	5
+73	21	WER Problem 01	2015-12-11 11:26:24	2016-12-12 18:30:11.511297+09	5
+74	21	WER Problem 01	2015-12-11 11:26:24	2016-12-12 18:30:58.030205+09	5
+75	21	WER Problem 01	2015-12-11 11:26:26	2016-12-12 18:31:23.128246+09	5
+76	21	WER Problem 01	2015-12-11_11:26:24	2016-12-12 18:32:03.228383+09	5
+77	22	WER Problem 02	C:\\Windows\\System32\\rundll32.exe	2016-12-12 18:32:46.391082+09	5
+78	13	Memory Problem 02	교육용 문제에 보호기법이라뇨	2016-12-12 18:35:00.280527+09	16
+79	23	WER Problem 03	4	2016-12-12 18:37:56.890272+09	5
+80	26	Stego Problem 01	CD765B729379BB0FF7D563CB5CA12D62AB1CD104	2016-12-12 18:43:06.76294+09	16
+81	7	LNK Problem 01	Debian 7.x.vmx	2016-12-12 18:45:08.544569+09	16
+82	7	LNK Problem 01	섹터 연락망.hwp	2016-12-12 18:46:34.153418+09	16
+83	8	LNK Problem 02	asdf	2016-12-12 18:46:59.773541+09	16
+84	8	LNK Problem 02	섹터 연락망.hwp	2016-12-12 18:48:49.724336+09	16
+85	8	LNK Problem 02	asdf	2016-12-12 18:50:49.191552+09	16
+86	2	Prefetch Problem 01	1780102_ 0x00000017	2016-12-12 18:50:56.45482+09	5
+87	2	Prefetch Problem 01	1780102_0x00000017	2016-12-12 18:51:25.079324+09	5
+88	3	Prefetch Problem 02	WORK_DOCUMENT.ZIP_4_CHESS.EXE	2016-12-12 19:01:01.349654+09	5
+89	3	Prefetch Problem 02	WORK_DOCUMENT.ZIP_4_CHESS.EXE_SC.EXE	2016-12-12 19:01:24.78356+09	5
+90	3	Prefetch Problem 02	WORK_DOCUMENT.ZIP_4_CHESS.EXE_NET.EXE	2016-12-12 19:04:04.968492+09	5
+91	3	Prefetch Problem 02	WORK_DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 19:04:33.480159+09	5
+92	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 19:06:15.035624+09	5
+93	3	Prefetch Problem 02	WORKDOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 19:08:24.808344+09	5
+94	39	내가 누구일까요? (8)	f	2016-12-12 19:29:54.435372+09	19
+95	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE	2016-12-12 21:23:51.130375+09	4
+96	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 21:26:41.257772+09	4
+97	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 21:27:37.042744+09	4
+98	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-12 21:31:31.654725+09	4
+99	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SPIDER SOLITAIRE.EXE	2016-12-13 17:20:04.950788+09	4
+100	33	내가 누구일까요? (2)	gif	2016-12-13 20:37:29.038041+09	11
+101	32	내가 누구일까요? (1)	l	2016-12-13 20:38:46.644147+09	11
+102	39	내가 누구일까요? (8)	zip	2016-12-13 20:40:13.409686+09	11
+103	39	내가 누구일까요? (8)	mp3	2016-12-13 20:40:17.596062+09	11
+104	39	내가 누구일까요? (8)	sdf	2016-12-13 20:40:23.899843+09	11
+105	39	내가 누구일까요? (8)	saf	2016-12-13 20:40:26.202654+09	11
+106	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_FREECELL.EXE_HEARTS.EXE_MAHJONG.EXE_SOLITAIRE.EXE_SPIDERSOLITAIRE.EXE	2016-12-13 21:20:09.933139+09	4
+107	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_FREECELL.EXE_HEARTS.EXE_MAHJONG.EXE_SOLITAIRE.EXE	2016-12-13 21:21:43.595868+09	4
+108	3	Prefetch Problem 02	asd	2016-12-13 21:25:49.019581+09	4
+109	43	Prefetch Problem 03	0x9093989BD0D3	2016-12-14 01:03:40.027676+09	4
+110	43	Prefetch Problem 03	0x9093989BD0D3	2016-12-14 13:17:15.540801+09	12
+111	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 3:35:06	2016-12-14 13:29:20.154927+09	12
+112	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 3:35:05	2016-12-14 13:30:51.377603+09	12
+113	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 2:35:06	2016-12-14 13:31:38.708228+09	12
+114	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 02:35:06	2016-12-14 13:32:11.142099+09	12
+115	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:35:06	2016-12-14 13:32:43.404698+09	12
+116	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:35:05	2016-12-14 13:32:53.675144+09	12
+117	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 03:35:06	2016-12-14 13:35:45.846695+09	12
+118	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 03:35:05	2016-12-14 13:35:53.531701+09	12
+119	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:35:06	2016-12-14 13:47:20.868786+09	12
+120	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-2303:35:06	2016-12-14 13:47:28.941673+09	12
+121	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:35:12	2016-12-14 13:48:18.670846+09	12
+122	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 02:35:12	2016-12-14 13:48:25.503587+09	12
+123	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 02:35:12	2016-12-14 13:49:51.742686+09	12
+124	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 02:35:06	2016-12-14 13:51:58.848193+09	12
+125	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:35:06	2016-12-14 13:52:32.054073+09	12
+126	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 04:35:06	2016-12-14 13:53:00.384076+09	12
+127	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:34:59	2016-12-14 13:54:00.576233+09	12
+128	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 02:34:59	2016-12-14 13:54:27.386054+09	12
+129	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:35:05	2016-12-14 13:54:55.99868+09	12
+130	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 03:35:05	2016-12-14 13:55:39.987186+09	12
+131	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 02:35:05	2016-12-14 13:56:17.593289+09	12
+132	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 02:35:02	2016-12-14 14:05:51.648602+09	12
+133	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 03:35:02	2016-12-14 14:05:58.084499+09	12
+134	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 03:35:02	2016-12-14 14:06:32.741779+09	12
+135	25	Registry Problem 01	EST_4C532000021221119534&0_2016-10-23 02:35:02	2016-12-14 14:07:20.723964+09	12
+136	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 03:35:02	2016-12-14 14:08:57.085961+09	12
+137	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 03:35:02	2016-12-14 14:09:31.147434+09	12
+138	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 03:35:06	2016-12-14 14:28:18.840208+09	12
+139	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 02:35:06	2016-12-14 14:28:38.987247+09	12
+140	32	내가 누구일까요? (1)	LNK	2016-12-14 14:30:26.038427+09	12
+141	33	내가 누구일까요? (2)	GIF	2016-12-14 14:31:45.705349+09	12
+142	34	내가 누구일까요? (3)	PNG	2016-12-14 14:32:21.479688+09	12
+143	35	내가 누구일까요? (4)	BMP	2016-12-14 14:34:03.495356+09	12
+144	36	내가 누구일까요? (5)	WAV	2016-12-14 14:35:10.372589+09	12
+145	36	내가 누구일까요? (5)	AVI	2016-12-14 14:35:21.754967+09	12
+146	7	LNK Problem 01	섹터 연락망.hwp	2016-12-14 14:38:52.200256+09	12
+147	9	LNK Problem 03	leech-75bbda31c	2016-12-14 15:00:00.023159+09	12
+148	9	LNK Problem 03	600F-351D	2016-12-14 15:05:02.19071+09	12
+149	32	내가 누구일까요? (1)	lnk	2016-12-14 15:39:22.553944+09	5
+150	33	내가 누구일까요? (2)	gif	2016-12-14 15:39:44.329981+09	5
+151	41	내가 누구일까요? (10)	VBR	2016-12-14 15:40:35.489867+09	5
+152	41	내가 누구일까요? (10)	MF	2016-12-14 15:41:07.734175+09	5
+153	41	내가 누구일까요? (10)	MFT	2016-12-14 15:41:33.702388+09	5
+154	41	내가 누구일까요? (10)	$MFT	2016-12-14 15:42:48.08518+09	5
+155	34	내가 누구일까요? (3)	png	2016-12-14 15:49:17.84863+09	5
+156	35	내가 누구일까요? (4)	bmp	2016-12-14 15:49:38.21675+09	5
+157	36	내가 누구일까요? (5)	riff	2016-12-14 15:50:17.210446+09	5
+158	36	내가 누구일까요? (5)	avi	2016-12-14 15:50:23.051718+09	5
+159	37	내가 누구일까요? (6)	hwp	2016-12-14 15:51:08.479034+09	5
+160	38	내가 누구일까요? (7)	reg	2016-12-14 15:51:27.477179+09	5
+161	39	내가 누구일까요? (8)	elf	2016-12-14 15:52:01.443746+09	5
+162	39	내가 누구일까요? (8)	elf	2016-12-14 15:52:27.517906+09	5
+163	39	내가 누구일까요? (8)	evtx	2016-12-14 15:52:58.294117+09	5
+164	40	내가 누구일까요? (9)	pf	2016-12-14 15:55:08.373487+09	5
+165	37	내가 누구일까요? (6)	hwp	2016-12-14 16:44:43.922064+09	12
+166	38	내가 누구일까요? (7)	reg	2016-12-14 16:45:11.988284+09	12
+167	39	내가 누구일까요? (8)	evxt	2016-12-14 16:45:33.417664+09	12
+168	39	내가 누구일까요? (8)	evtx	2016-12-14 16:45:53.910118+09	12
+169	40	내가 누구일까요? (9)	pf	2016-12-14 16:46:10.181151+09	12
+170	41	내가 누구일까요? (10)	fat	2016-12-14 16:46:27.372358+09	12
+171	41	내가 누구일까요? (10)	fat16	2016-12-14 16:47:34.156617+09	12
+172	41	내가 누구일까요? (10)	MFT	2016-12-14 16:48:19.155484+09	12
+173	17	Web History Problem 01-1	2016.09.19-15:27:26	2016-12-14 16:56:21.3156+09	12
+174	18	Web History Problem 01-2	8	2016-12-14 17:28:31.515741+09	12
+175	18	Web History Problem 01-2	8-18	2016-12-14 17:29:22.138626+09	12
+176	18	Web History Problem 01-2	-9	2016-12-14 17:29:40.197085+09	12
+177	18	Web History Problem 01-2	8-12	2016-12-14 17:32:22.364148+09	12
+178	18	Web History Problem 01-2	6-12	2016-12-14 17:32:52.646243+09	12
+179	18	Web History Problem 01-2	10	2016-12-14 17:34:26.548525+09	12
+180	18	Web History Problem 01-2	6-12	2016-12-14 17:36:37.535007+09	12
+181	18	Web History Problem 01-2	수영아 플래그로그보고있냐	2016-12-14 17:40:44.288371+09	12
+182	18	Web History Problem 01-2	보고있으면 카톡좀해줄레	2016-12-14 17:41:00.655825+09	12
+183	26	Stego Problem 01	CD765B729379BB0FF7D563CB5CA12D62AB1CD104	2016-12-14 17:56:03.840026+09	12
+184	32	내가 누구일까요? (1)	lnk	2016-12-14 18:02:09.458642+09	6
+185	41	내가 누구일까요? (10)	mft	2016-12-14 18:03:00.845646+09	6
+186	33	내가 누구일까요? (2)	gif	2016-12-14 18:03:45.140691+09	6
+187	34	내가 누구일까요? (3)	png	2016-12-14 18:04:18.110546+09	6
+188	18	Web History Problem 01-2	1	2016-12-14 18:05:00.131536+09	12
+189	18	Web History Problem 01-2	6-5	2016-12-14 18:05:29.120223+09	12
+190	18	Web History Problem 01-2	8-7	2016-12-14 18:06:02.777006+09	12
+191	18	Web History Problem 01-2	0	2016-12-14 18:07:08.333485+09	12
+192	12	Shim Cache Problem 01	starcraft	2016-12-14 18:07:37.446923+09	6
+193	18	Web History Problem 01-2	이거 키워드랑 파일 개수 셀때 중복된건 빼라는건가여	2016-12-14 18:07:51.83026+09	12
+194	18	Web History Problem 01-2	8-7	2016-12-14 18:13:26.755785+09	12
+195	26	Stego Problem 01	CD765B729379BB0FF7D563CB5CA12D62AB1CD104	2016-12-14 18:20:08.049741+09	6
+196	16	IconCache Problem 01	f:\\mytools\\diskwipe.exe	2016-12-14 18:23:33.932055+09	6
+197	15	Network Problem 01	arpspoofing_192.168.208.129_000c29a5335c	2016-12-14 18:26:43.042203+09	6
+198	35	내가 누구일까요? (4)	bmp	2016-12-14 18:27:39.993935+09	6
+199	36	내가 누구일까요? (5)	avi	2016-12-14 18:28:41.78598+09	6
+200	37	내가 누구일까요? (6)	hwp	2016-12-14 18:29:41.417443+09	6
+201	38	내가 누구일까요? (7)	reg	2016-12-14 18:30:17.100635+09	6
+202	39	내가 누구일까요? (8)	evt	2016-12-14 18:31:11.428645+09	6
+203	39	내가 누구일까요? (8)	evtx	2016-12-14 18:31:28.09099+09	6
+204	2	Prefetch Problem 01	1739_0x00000017	2016-12-14 18:32:30.91565+09	28
+205	40	내가 누구일까요? (9)	pf	2016-12-14 18:32:57.191951+09	6
+206	2	Prefetch Problem 01	1780736_00000017	2016-12-14 18:33:39.66879+09	28
+207	2	Prefetch Problem 01	1780736_0x00000017	2016-12-14 18:34:01.858763+09	28
+208	2	Prefetch Problem 01	1780736_0x17000000	2016-12-14 18:35:10.798251+09	28
+209	2	Prefetch Problem 01	1780736_00000017	2016-12-14 18:35:36.654359+09	28
+210	2	Prefetch Problem 01	1,780,102_00000017	2016-12-14 18:36:13.539074+09	28
+211	2	Prefetch Problem 01	1780102_0x00000017	2016-12-14 18:36:35.049176+09	28
+212	18	Web History Problem 01-2	5-11	2016-12-14 18:38:42.814899+09	12
+213	25	Registry Problem 01	KST_4C532000021221119534_2016-10-23 16:35:06	2016-12-14 19:19:36.543173+09	6
+214	25	Registry Problem 01	KST_4C532000021221119534&0_2016-10-23 16:35:06	2016-12-14 19:19:56.955825+09	6
+215	25	Registry Problem 01	KST_4C532000021221119534_2016-10-24 01:35:06	2016-12-14 19:20:44.012948+09	6
+216	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 16:35:06	2016-12-14 19:22:12.928433+09	6
+217	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 11:35:06	2016-12-14 19:22:47.754411+09	6
+218	25	Registry Problem 01	EST_4C532000021221119534_2016-10-23 02:35:06	2016-12-14 19:23:00.207257+09	6
+219	28	File Delete Problem 01	L0v3_ForensIcs	2016-12-14 21:40:51.005218+09	12
+220	28	File Delete Problem 01	LOv3_ForensIcs	2016-12-14 21:41:06.226145+09	12
+221	28	File Delete Problem 01	L0v3_Forens1cs	2016-12-14 21:41:27.99696+09	12
+222	28	File Delete Problem 01	Flag is "L0v3_ForensIcs"	2016-12-14 21:42:00.652696+09	12
+223	28	File Delete Problem 01	L0v3_Forensics	2016-12-14 21:43:30.758497+09	12
+224	28	File Delete Problem 01	"L0v3_ForensIcs"	2016-12-14 21:52:36.02164+09	12
+225	28	File Delete Problem 01	"L0v3_Forenslcs"	2016-12-14 21:52:50.406889+09	12
+226	28	File Delete Problem 01	"L0v3_Forens1cs"	2016-12-14 21:53:03.778864+09	12
+227	28	File Delete Problem 01	L0v3_Forenslcs	2016-12-14 21:56:33.898315+09	12
+228	28	File Delete Problem 01	Lov3_Forensic	2016-12-14 22:09:55.771032+09	12
+229	28	File Delete Problem 01	L0v3_ForensIcs	2016-12-14 22:10:08.765035+09	12
+230	28	File Delete Problem 01	L0v3_ForensIcs	2016-12-14 22:10:30.758289+09	12
+231	28	File Delete Problem 01	L0v3_ForensIcs	2016-12-14 22:21:51.260556+09	12
+232	28	File Delete Problem 01	L0v3_ForensIcs	2016-12-14 22:22:07.581202+09	12
+233	28	File Delete Problem 01	L0v3_ForensIcs	2016-12-14 22:22:50.328544+09	12
+234	28	File Delete Problem 01	L0v3_ForensIcs	2016-12-14 22:23:10.386838+09	12
+235	28	File Delete Problem 01	L0v3_Forens1cs	2016-12-14 22:24:26.64139+09	12
+236	12	Shim Cache Problem 01	starcraft	2016-12-14 22:28:37.162541+09	2
+237	3	Prefetch Problem 02	a	2016-12-15 01:10:06.968749+09	4
+238	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_FREECELL.EXE_HEARTS.EXE_MAHJONG.EXE_PURBLEPLACE.EXE_SOLITAIRE.EXE	2016-12-15 01:10:15.397144+09	4
+239	3	Prefetch Problem 02	WORKDOCUMENT.ZIP_4_CHESS.EXE_FREECELL.EXE_HEARTS.EXE_MAHJONG.EXE_PURBLEPLACE.EXE_SOLITAIRE.EXE	2016-12-15 01:10:22.022271+09	4
+240	5	Event Log Problem 02	2016-10-14 07:02:10_DEVJDOE_192.168.16.11	2016-12-15 01:36:41.321434+09	4
+241	6	Event Log Problem 03	test	2016-12-15 01:39:22.722435+09	4
+242	3	Prefetch Problem 02	WORK DOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-15 14:28:07.780973+09	3
+243	3	Prefetch Problem 02	WORKDOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-15 14:28:41.990385+09	3
+244	3	Prefetch Problem 02	WORKDOCUMENT.ZIP_4_CHESS.EXE_FREECELL.EXE_HEARTS.EXE_MAHJONG.EXE_PURBLEPLACE.EXE	2016-12-16 10:41:55.702786+09	4
+245	8	LNK Problem 02	1496	2016-12-17 01:28:15.344521+09	12
+246	10	LNK Problem 04	user	2016-12-17 01:31:04.048301+09	12
+247	11	LNK Problem 05	73494	2016-12-17 01:48:19.363225+09	12
+248	11	LNK Problem 05	248435	2016-12-17 01:49:20.623888+09	12
+249	16	IconCache Problem 01	f:\\mytools\\diskwipe.exe	2016-12-17 01:55:47.713468+09	12
+250	21	WER Problem 01	2011-06-30_10:44:38	2016-12-17 02:09:03.49168+09	12
+251	21	WER Problem 01	2015-12-11_8:26:24	2016-12-17 02:28:38.661642+09	12
+252	21	WER Problem 01	2015-12-10_11:26:24	2016-12-17 02:29:53.382566+09	12
+253	21	WER Problem 01	2015-12-11_23:26:24	2016-12-17 02:30:13.352444+09	12
+254	21	WER Problem 01	2015-12-10_23:26:24	2016-12-17 02:30:24.629948+09	12
+255	21	WER Problem 01	2015-12-11_20:26:24	2016-12-17 02:30:55.540908+09	12
+256	21	WER Problem 01	2015-12-11_11:26:24	2016-12-17 02:31:29.378515+09	12
+257	22	WER Problem 02	C:\\Windows\\System32\\rundll32.exe	2016-12-17 02:33:49.165554+09	12
+260	3	Prefetch Problem 02	WORKDOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	2016-12-17 12:11:45.092437+09	32
+261	23	WER Problem 03	82	2016-12-17 16:11:52.646892+09	12
+262	23	WER Problem 03	74	2016-12-17 16:11:55.229089+09	12
+263	24	MFT Problem 01	서비스 입금계좌 신청서.hwp_2016-10-11 12:32:37	2016-12-17 21:27:55.658104+09	12
+264	24	MFT Problem 01	서비스 입금계좌 신청서.hwp_2016-10-11 21:32:37	2016-12-17 21:28:44.374943+09	12
+265	24	MFT Problem 01	High Confidential_AlphaMikeFoxtrot.pdf_2016-10-23 10:44:37	2016-12-17 21:37:05.643278+09	12
+266	24	MFT Problem 01	High Confidential_AlphaMikeFoxtrot.pdf_2016-10-23 10:43:57	2016-12-17 21:43:03.10004+09	12
+267	24	MFT Problem 01	High Confidential_AlphaMikeFoxtrot.pdf_2016-10-23 19:44:37	2016-12-17 21:47:59.848175+09	12
+268	2	Prefetch Problem 01	17801202 0x00000017	2016-12-20 15:42:13.376188+09	23
+269	2	Prefetch Problem 01	17801202 0x0000001	2016-12-20 15:43:30.016125+09	23
+270	2	Prefetch Problem 01	1780102 0x00000017	2016-12-20 15:46:42.561633+09	23
+271	2	Prefetch Problem 01	1780160 0x00000017	2016-12-20 15:48:04.303084+09	23
+272	2	Prefetch Problem 01	1780102_0x00000017	2016-12-20 15:48:36.508576+09	23
+273	17	Web History Problem 01-1	2016.09.19-15:27:26	2016-12-20 17:21:47.380858+09	6
+274	18	Web History Problem 01-2	15-14	2016-12-20 17:24:58.605932+09	6
+275	18	Web History Problem 01-2	132-14	2016-12-20 17:26:09.690011+09	6
+276	18	Web History Problem 01-2	12-14	2016-12-20 17:26:48.417105+09	6
+277	18	Web History Problem 01-2	8-14	2016-12-20 17:27:51.871267+09	6
+278	18	Web History Problem 01-2	8-19	2016-12-20 17:28:17.479035+09	6
+279	18	Web History Problem 01-2	15-19	2016-12-20 17:28:33.859862+09	6
+280	19	Crash Dump Problem 01	Access Violation Error	2016-12-20 17:39:00.534769+09	6
+281	19	Crash Dump Problem 01	STATUS_ACCESS_VIOLATION	2016-12-20 17:42:10.47823+09	6
+282	19	Crash Dump Problem 01	ACCESS VIOLATION	2016-12-20 17:45:58.373558+09	3
+283	19	Crash Dump Problem 01	Access violation	2016-12-20 17:46:35.807621+09	6
+284	21	WER Problem 01	2015-12-11_11:26:24	2016-12-20 17:55:01.776543+09	6
+285	22	WER Problem 02	C:\\Windows\\System32\\rundll32.exe	2016-12-20 17:56:08.460936+09	6
+286	7	LNK Problem 01	E:\\섹터 연락망.hwp	2016-12-20 23:23:27.473946+09	18
+287	7	LNK Problem 01	섹터 연락망.hwp	2016-12-20 23:23:40.997966+09	18
+288	15	Network Problem 01	(arpspoofing)_192.168.208.1_00:50:56:c0:00:08	2016-12-20 23:38:27.192458+09	18
+289	15	Network Problem 01	(arpspoofing)_192.168.208.129_00:0c:29:e0:16:e3	2016-12-20 23:41:05.414108+09	18
+290	15	Network Problem 01	(arpspoofing)_192.168.208.129_00:50:56:c0:00:08	2016-12-20 23:42:47.768944+09	18
+291	15	Network Problem 01	(arpspoofing)_192.168.208.129_005056c00008	2016-12-20 23:54:20.980098+09	18
+292	15	Network Problem 01	(arpspoofing)_192.168.208.152_000c29a5335c	2016-12-20 23:54:53.693959+09	18
+293	15	Network Problem 01	(arpspoofing)_192.168.208.2_005056eb047e	2016-12-20 23:58:25.95405+09	18
+294	12	Shim Cache Problem 01	starcraft	2016-12-21 00:07:42.81066+09	18
+295	15	Network Problem 01	arpspooping_192.168.208.129_00:0c:29:a5:33:5c	2016-12-21 00:07:57.423262+09	12
+296	15	Network Problem 01	arpspoofing_192.168.208.129_000c29a5335c	2016-12-21 00:08:28.328361+09	12
+297	15	Network Problem 01	ARPSPOOFING_192.168.208.129_000C29A5335C	2016-12-21 00:09:23.944395+09	18
+298	26	Stego Problem 01	2592A28B80CAB52AFBF9C538E355F2F7CA08AD75	2016-12-21 00:19:50.2118+09	18
+299	26	Stego Problem 01	2592A28B80CAB52AFBF9C538E355F2F7CA08AD75	2016-12-21 00:20:04.939866+09	18
+300	26	Stego Problem 01	CD765B729379BB0FF7D563CB5CA12D62AB1CD104	2016-12-21 00:20:39.234503+09	18
+301	1	Memory Problem 01	sms.exe.exe_explorer.exe	2016-12-21 00:56:05.366759+09	12
+302	1	Memory Problem 01	sms.exe_explorer.exe	2016-12-21 01:10:55.887427+09	12
+303	13	Memory Problem 02	210.220.131.43_34251	2016-12-21 01:39:31.933633+09	12
+304	2	Prefetch Problem 01	1780102_0x00000020	2016-12-21 14:13:12.198624+09	6
+\.
+
+
+--
+-- Name: problem_answerlog_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('problem_answerlog_num_seq', 304, true);
+
+
+--
+-- Data for Name: problem_problem; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY problem_problem (num, artifact, title, created_date, level, right_answer, submits, corrects, tags, importance, difficulty, score, downfile, content, solve_user, author_id) FROM stdin;
+4	2	Event Log Problem 01	2016-12-06	0	JDazz_2016-10-14 07:13:56_2016-10-14 22:00:04	0	0	#Event Log	2	1	100	EVT_001.evtx	크레센도 그룹의 보안담당자 P씨는 사내 보안 정기 점검 중 내부 네트워크의 도메인 컨트롤러가 침해당했음을 확인했다. 해당 머신의 Security 이벤트 로그를 통해 아래와 같은 정보를 확인하시오. \r\n\r\n1. 가장 먼저 생성된 “일반” 사용자 계정의 이름\r\n2. 해당 일반 사용자 계정(1번 문항)의 생성 시점\r\n3. 해당 일반 사용자 계정(1번 문항)이 SID History Injection 공격을 성공한 시점\r\n\r\n2,3번 문항의 시점은 \r\nYYYY-MM-DD hh:mm:ss (UTC+9 24hour) 포맷임.\r\n답 포맷 : [1번 답]_[2번 답]_[3번 답]\r\nEx : CRE_2015-01-28 11:16:33_2015-02-14 22:11:33	\N	2
+5	2	Event Log Problem 02	2016-12-06	0	2016-10-14 07:02:10_DevJDoe_192.168.16.11	1	1	#Event Log	2	1	100	EVT_002.evtx	크레센도 그룹의 보안담당자 A 씨는 최근 퇴사자의 PC를 분석하던 중, 보안 정책 상 접근이 허용되지 않은 부서의 IP 로부터 접속 흔적을 발견했다. 해당 흔적에 대한 추가 분석을 수행하시오.\r\n\r\n1. 첫 번째 원격 로그인 성립 시점\r\n2. 원격 접속 시 사용한 퇴사자 PC의 로컬 계정 이름\r\n3. 원격으로 접속한 비 인가 부서의 IP 주소\r\n\r\n1번문항 시점은 YYYY-MM-DD hh:mm:ss (UTC+9 24hour) 포맷임\r\n답 포맷: [1번 답]_[2번 답]_[3번 답]\r\nEx: 2015-01-28 11:16:33_CRE_10.0.0.123	4,	2
+1	5	Memory Problem 01	2016-12-06	0	sms.exe_explorer.exe	11	1	#Memory #Windows #Process Logic	1	1	100	WINDOWS-PC-20161011-135027.7z	평소에 컴퓨터로 업무와 간단한 게임 이외의 작업은 하지 않던 나잘난군은 최근 자꾸 컴퓨터가 이상동작을 함을 느끼게 되었고, 평소에 친분이 있던 당신에게 분석을 의뢰하여 당신은 나잘난군의 PC의 메모리 덤프를 요청하여 분석을 진행하게 되었다.\r\n메모리상에 존재하는 악성 Process 의 이름과 해당 악성 프로세스의 부모 프로세스의 부모 프로세스의 이름을 구하시오.\r\n\r\n(인증형식 : Process Name_부모의 부모Process Name)	12,	2
+12	4	Shim Cache Problem 01	2016-12-06	0	Starcraft	4	4	#ShimCacheParser #SYSTEM registry hive	2	1	100	SHIM_CACHE_2.zip	A고등학교 컴퓨터실은 최신 컴퓨터를 기반으로 다양한 IT수업을 진행한다. 최근 학생들이 학교 컴퓨터실에 몰래 침입해 게임을 한다는 소문을 듣고 분석을 시도하였다. 하지만 알 수 없는 이유로 학교 컴퓨터에 존재하는 모든 Prefetch 파일과 링크 파일이 삭제되어 과거 실행된 프로그램에 대한 정보를 얻을 수 없었다.\r\n아쉬운 대로 학교측에서는 레지스트리 파일만 확보하여 분석을 의뢰해 왔다. 주어진 레지스트리 파일을 분석하여 학생들이 즐긴 것으로 의심되는 게임의 이름을 알아내라\r\n\r\n(영어로 입력, 대소문자 구분 없음)	5,12,6,18,	2
+11	3	LNK Problem 05	2016-12-06	0	248435	2	1	#MAC Time	2	2	100	LNK_7.zip	주어진 바로 가기 파일이 가리키는 대상 중 복사되지 않은 대상의 크기를 찾으시오.\r\n(단위는 Byte이며 정답 입력시 단위를 제외한 십진수 아라비아 숫자만 입력)	12,	2
+13	5	Memory Problem 02	2016-12-06	0	210.220.131.43_34251	2	1	#Memory #Network	1	0	100	WINDOWS-PC-20161011-145327.7z	평소에 PC 게임을 즐겨하던 왕별난 양은 누군지 알수없는 신원미상의 해커로부터 당신의 PC는 해킹되었으며, 당신의 일상생활을 담은 영상이 있으니, 이 영상을 유포하지 않는 조건으로 금품을 달라고 요구하고 있다.\r\n이 해커가 사용한 C&C서버의 IP 주소와 Port 번호를 적으시오.\r\n\r\n(인증 형식은 IP_Port)	12,	2
+6	2	Event Log Problem 03	2016-12-06	0	Dropbox_2016-10-13 12:25:36_2016-10-13 12:30:00	1	0	#Event Log #Information Leak	2	1	100	EVT_003.7z	크레센도 그룹의 보안담당자 A 씨는 내부 정기 감사를 통해 한직원의 컴퓨터에서 인가되지 않은 클라우드 공유 프로그램의 설치 흔적을 발견하였다. 현재 추가 분석을 위해 해당 직원 컴퓨터에서 확보한 이벤트 로그 파일 5개를 전달받은 상태이다. 주어진 파일에서 다음과 같은 정보를 확보하시오:\r\n\r\n1. 설치된 “비인가 프로그램”의 실행파일 이름\r\n2. 1번 프로그램의 설치 완료 시점\r\n3. 1번 프로그램이 방화벽 예외에 등록된 시점\r\n\r\n2,3번문항 시점은 \r\nYYYY-MM-DD hh:mm:ss (UTC+9 24hour) 포맷임\r\n\r\n답 포맷: [1번 답]_[2번 답]_[3번 답]\r\nEx: PPAP_2015-01-28 11:16:33_2015-01-28 17:33:22	\N	2
+9	3	LNK Problem 03	2016-12-06	0	600F-351D	2	1	#LNK file structure	2	0	100	LNK_5.zip	주어진 바로가기 파일이 가리키는 대상이 저장된 볼륨의 볼륨 일련 번호를 구하시오\r\n(입력 형식 : XXXX-XXXX)	12,	2
+8	3	LNK Problem 02	2016-12-06	0	1496	5	1	#LNK file structure	2	0	100	LNK_4.zip	주어진 바로 가기 파일들이 가리키는 대상들 중 숨김 속성을 가진 것의 크기는 몇 바이트인가?\r\n(단위 생략, 10진법으로 아라비아 숫자만 작성)	12,	2
+10	3	LNK Problem 04	2016-12-06	0	drone1013	1	0	#LNK file structure #User Directory	2	1	100	LNK_6.zip	주어진 바로 가기 파일을 종합적으로 분석하여 관리자(Administrator)외의 사용자 계정을 알아내시오.\r\n(대소문자 구분 없이 입력)	\N	2
+7	3	LNK Problem 01	2016-12-06	0	섹터 연락망.hwp	6	3	#LNK file structure #Encoding	2	1	100	LNK_3.zip	주어진 바로 가기 파일들 중 가리키는 대상이 이동식 디스크(Removable Disk)에 저장된 원본 파일의 이름을 알아내시오. 단,  파일명은 ‘EUC_KR’ 인코딩을 사용한다.\r\n\r\n(확장자 및 띄어쓰기 포함, 소문자로 작성)	16,12,18,	2
+20	10	Crash Dump Problem 02	2016-12-06	0	5d729	0	0	#Crash Dump #Reversing	2	2	100	42626973-37f3-430e-84ca-4e0645d6e1ff.dmp	당신은 벤처기업 XXX IT의 개발자이다.\r\n최근 XXX IT 사의 제품이 업데이트를 진행하였는데, 업데이트 이후로 PC가 불시에 종료되는 현상이 자주 발생한다는 항의가 빗발치고 있고, 그 원인을 찾기 위해 당신은 당신이 개발한 프로그램의 크래시 덤프를 보유하고 있다. 해당 크래시 덤프를 분석하여, 해당 모듈의 체크섬 값을 입력하여라.\r\n\r\n(영문자는 소문자로 입력한다.)	\N	2
+17	9	Web History Problem 01-1	2016-12-06	0	2016.09.19-15:27:26	2	2	#Web Log	1	1	100	History.7z	다음은 모 학교의 웹브라우저 이용 기록이다.\r\n다음 기록 중 TeamViewer를 이용하기 위한 설치파일을 다운받은 시간을 본 히스토리를 기반으로 찾아내시오.\r\n\r\n(UTC +9, 24시간 표기법 기준, 플래그 양식은 YYYY.MM.DD-hh:mm:ss)	12,6,	2
+26	15	Stego Problem 01	2016-12-06	0	CD765B729379BB0FF7D563CB5CA12D62AB1CD104	9	5	#Stego #File Instruction	2	1	100	image.png	당신은 K 기업의 보안 담담자로써 내부 직원 이씨가 회사 내부 핵심 기술정보를 빼돌리려고 한다는 익명의 제보를 획득하였다.\r\n이에 따라 당신은 이씨의 PC를 조사하게 되었고, 단 하나의 수상한 파일을 발견하게 되었는데….\r\n기술 설계도면을 찾아 해당 파일의 SHA-1 해쉬값을 찾으시오.	5,16,12,6,18,	2
+15	6	Network Problem 01	2016-12-06	0	ARPSPOOFING_192.168.208.129_000C29A5335C	18	4	#ARP #Network #Spoofing	1	1	100	problem_1.pcapng	당신은 S기업의 보안 담당자이다.\r\n당신은 몇 일 전 방화벽에서 이상징후를 발견하였고, 방화벽에 기록된 패킷 덤프 파일을 통하여 해당 이상징후의 내용을 판별 해 내야한다.\r\n당신은 이 패킷 덤프파일을 통하여, 이상징후의 발생원인(공격기법)과 이상징후를 발생시킨 원인 PC(공격자 PC)의 IP Address와 Mac Address를 파악하여라.\r\n\r\n(인증형식은 공격기법_IP_MAC)\r\n플래그의 공백은 제외한다.\r\nMAC 주소는 콜론(:)을 제외한다.	5,6,12,18,	2
+16	7	IconCache Problem 01	2016-12-06	0	F:\\mytools\\DiskWipe.exe	4	2	#Icon Cache	2	1	100	IconCache.db	크레센도 그룹의 보안담당자 A씨는 퇴사자 D씨의 정보유출 여부를 분석하는 업무를 수행 중이다. 분석 도구로 D씨의 하드디스크를 검사한 결과 대부분의 데이터가 0으로 덮어쓰기 되어 있었다. 그러나 다행히도 IconCache 파일은 온전히 복구할 수 있었다. 주어진 IconCache파일을 통해 퇴사자 D씨가 실행한 데이터 삭제 프로그램의 이름을 추출하시오.\r\n\r\n답 포맷 : 드라이브 문자를 포함한 절대 경로\r\nEx) G:\\tool\\DataDelete.exe	6,12,	2
+19	10	Crash Dump Problem 01	2016-12-06	0	Access Violation	7	3	#Crash Dump #Reversing	1	0	100	explorer.exe.2160.dmp	xx고등학교의 전산 시스템 관리를 맞고있는 PC 정비업체의 대표인 당신은 xx 고등학교의 전산 담당 교사로부터 최근 교내의 PC가 자꾸 오류메세지가 발생하고 블루스크린이 발생하니 해결을 원한다는 요청을 받고 해당 PC를 조사하였다. 그 결과 해당 PC의 특정 어플리케이션(Explorer.exe)가 자꾸 크래시를 발생시키는것을 확인하였는데, 해당 크래시가 발생하는 이유를 Exception Code에 기반하여 찾으시오.\r\n\r\n(플래그 형식은 Exception Code에 기반한 Error의 이름으로 한다.)	5,3,6,	2
+23	10	WER Problem 03	2016-12-06	0	74	3	1	#WER #Programming	0	1	100	WERS.7z	위 WER 중 ‘svchost.exe” 와 관계있는 WER의 개수는 몇 개인가?\r\n\r\n(숫자만 입력하시오.)	12,	2
+18	9	Web History Problem 01-2	2016-12-06	0	5-11	22	1	#Web Log	1	0	100	History_CuZEQYB.7z	다음은 모 학교의 웹브라우저 이용 기록이다.\r\n다음 기록 중 IE(Internet Explorer)를 이용하여 검색한 키워드의 개수와 IE를 이용하여 열람한 파일의 개수를 입력하시오.\r\n\r\n(인증형식은 키워드의 개수-파일의 개수 이며, 중복은 신경쓰지 않는다.)\r\n(실제로는 low-level에서 확인해보거나 더 정확도가 높은 도구를 이용하여 분석을 진행하면 더 많은 데이터가 존재하나 본 문제는 고려대학교 사이트에서 제공하는 WEFA 라는 도구의 연산값을 기준으로 한다.)	12,	2
+14	5	Memory Problem 03	2016-12-06	0	819883BC936337F525BC6D520562E5D785F1C64E	0	0	#Memory #Hash	1	1	100	WINDOWS-PC-20160313-081828.7z	해당 메모리덤프 파일은 악성코드에 감염된 PC의 메모리를 덤프 한 것이다.\r\n본 메모리 덤프에서 악성코드를 찾아 exe 파일 형식으로 다운로드 한 후 해당 악성코드의 해쉬값을 인증하여라.\r\n\r\n(추출은 exe 형식의 파일로 추출하며, sha-1 해쉬를 인증한다.)		2
+22	10	WER Problem 02	2016-12-06	0	C:\\Windows\\System32\\rundll32.exe	3	3	#WER	0	0	100	Report-2.wer	본 WER을 통하여 본 PC에서 에러를 일으키는 바이너리가, 위치한 경로는 어떻게 되는지 기입하시오.\r\n\r\n(단, 띄어쓰기는 제외하고 입력할 것.)	5,12,6,	2
+24	11	MFT Problem 01	2016-12-06	0	High Confidential_AlphaMikeFoxtrot.pdf_2016-10-23 19:44:37	6	1	#MFT	2	1	100	MFT	크레센도 그룹의 보안담당자 A씨는 최근 사내 기밀 문서 유출이의심되는 용의자 D씨의 컴퓨터를 확보했다. 그러나 이미 해당 PC에서 기밀 문서는 삭제 것으로 보인다. \r\n\r\n주어진 파일로부터 다음의 정보를 획득하시오:\r\n1. 기밀 문서로 추정되는 삭제된 파일 이름\r\n2. 해당 파일의 삭제 추정 시간\r\n\r\n답 포맷 : [1번 정답]_[2번 정답]\r\nEx: Confidential.docx_2016-01-22 17:22:11	12,	2
+21	10	WER Problem 01	2016-12-06	0	2015-12-11_11:26:24	19	3	#WER #Time Stamp	1	0	100	Report.wer	본 WER이 발생한 시간은 언제인가?\r\n\r\n(초단위까지 기입,  UTC +0 기준, 정수만 기입하고 소숫점은 무시 "YYYY-MM-dd_hh:mm:ss")	5,12,6,	2
+30	12	NTFS Log 1	2016-12-09	1	2016-10-13 23:42:29	0	0	#NTFS Log	1	0	50	LOG.zip	주어진 파일 시스템 로그를 분석하여 시스템에서 “Everything-1.3.4.686.x86.Multilingual-Setup.exe”가 생성된 시각을 찾으시오\r\n해당 시스템은 UTC+9 시간대를 사용한다.\r\n(YYYY-MM-DD HH:MM:SS 형식으로 입력, UTC +09:00 기준, 띄어쓰기 준수)	\N	2
+31	12	오늘은 국군의날	2016-12-09	1	나의 죽음을 적에게 알리지 마라	0	0	#NTFS	2	2	150	diary.rar	『2020년 10월 1일\r\n날씨 : 맑음\r\n국군의 날이다. 옛날부터 별로 큰 감흥을 느끼는 날은 아니다. 오늘도 매년 돌아오는 여느 국군의 날처럼 싱겁게 지나가는 듯 했다. 그런데 오늘 컴퓨터 선생님께서 내 주신 수행평가가 마음에 걸린다. 국군의 날을 맞아 특별히 제작된 숙제라고 하셨다. 과제의 내용은 ‘난중일기에 숨겨진 메시지를 찾아오라’는 것이었다. 문제를 푼 사람에게는 어마무시한 상품이 주어진다고 말씀도 덧붙이셨다. 어떻게 숙제를 해결해야할 지 막막하다. 일단 최근에 배운 데이터 은닉 기법을 복습한 후에, 차근차근 문제 파일을 분석해보아야겠다.\r\n오늘의 일기 끝!』\r\n\r\n컴퓨터 선생님께서 내 주신 과제를 해결하고 Flag를 알아내시오!		2
+27	16	Hidden File Problem 01	2016-12-06	0	Cr35cend0!#@_!@#$_Good_J0B	0	0	#True Crypt #Memory #Aes key	2	1	100	File.7z	당신은 M 기업의 보안 담당자로써, 내부 기밀을 유출한 혐의를 받고있는 A씨의 PC에서 업무에 지장을 주지 않는 한도 내에서 내부 감사를 진행하여야 했고, 불시에 난입하여 A씨의 PC의   메모리 덤프를 확보하였으며, A씨가 급하게 화면을 종료하는 것을 확인하였다. 또한, A씨의 PC를 조사하며 무언가 암호가 걸린 프로그램을 발견하였다.\r\n본 메모리 덤프를 통하여 A씨가 내부 기밀을 유출하기 위하여 이용한 숨겨진 password와 파일안에 숨겨진 Flag를 찾아내시오.\r\n\r\n(인증형식. password_Flag)		2
+2	1	Prefetch Problem 01	2016-12-06	0	1780102_0x00000017	34	5	#Prefetch #Time Stamp #File Structure	1	0	100	PRE_001.7z	1. 부트 프리패치의 크기는?\r\n(바이트 단위, 단위 생략)\r\n\r\n2. 부트 프리패치의 프리패쳐 버전은?\r\n(0x00000020)\r\n\r\n답 포맷 : [1번 답]_[2번 답], 대괄호/문장부호 생략	12,4,5,28,23,	2
+40	14	내가 누구일까요? (9)	2016-12-12	1	PF	3	3	Magic	2	0	30	file_YzwfhfF	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	5,12,6,	19
+35	14	내가 누구일까요? (4)	2016-12-12	1	BMP	3	3	Magic	2	0	30	file_k8hf6gn	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	12,5,6,	19
+32	14	내가 누구일까요? (1)	2016-12-12	1	LNK	4	3	Magic	2	0	30	file	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	12,5,6,	19
+37	14	내가 누구일까요? (6)	2016-12-12	1	HWP	3	3	Magic	2	0	30	file_uhjK7mT	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	5,12,6,	19
+28	17	File Delete Problem 01	2016-12-06	0	L0v3_Forens1cs	18	1	#NTFS #File Recover	0	0	100	File_Delete_001.E01	삭제된 파일을 찾아 플래그를 획득하시오.\r\n\r\n[ File Hash ]\r\nMD5 checksum:    AC22967AB89EB9E671A74D6CD2524AE5\r\nSHA1 checksum:   02EBA0CF40A587666856E4526E49DA78FC23B24F	12,	2
+39	14	내가 누구일까요? (8)	2016-12-12	1	EVTX	12	3	Magic	2	0	30	file_l8ageXZ	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	5,12,6,	19
+33	14	내가 누구일까요? (2)	2016-12-12	1	GIF	4	4	Magic	2	0	30	file_73gau94	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	11,12,5,6,	19
+38	14	내가 누구일까요? (7)	2016-12-12	1	REG	3	3	Magic	2	0	30	file_uymPv79	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	5,12,6,	19
+41	14	내가 누구일까요? (10)	2016-12-12	1	MFT	8	2	Magic	2	0	30	file_AgYIoUi	주어진 파일이 나타내는 영역의 이름은 무엇인가?\r\n(대소문자 구분 없이 입력)	12,6,	19
+36	14	내가 누구일까요? (5)	2016-12-12	1	AVI	5	3	Magic	2	0	30	file_Yym07ae	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	12,5,6,	19
+34	14	내가 누구일까요? (3)	2016-12-12	1	PNG	3	3	Magic	2	0	30	file_LP1guyD	주어진 파일의 알려진 확장자는 무엇인가?\r\n(확장자만 입력, 대소문자 구분 없이 입력)	12,5,6,	19
+29	17	File Delete Problem 02	2016-12-06	0	60a1f926-c87c-45d3-a4ff-be0ecbfc7caa	1	1	#NTFS #File Recover #MFT	2	2	100	File_Delete_002.E01	당신은 L정보통신 업체의 직원으로써, 한 사용자가 PC를 이용중에 USB 안에 들어있던 일을 하는데 중요한 id값이 적힌 파일을 삭제하였으며, 해당 파일의 복구를 요청한다는 의뢰를 받게 되었다.\r\n해당 파일을 복구하여 플래그를 획득하여라.\r\n\r\n[ File Hash ]\r\nMD5 checksum:   0681B4441762C406F32E026108971928\r\nSHA1 checksum:  3DB60C1005BBB5D5C35D435066FE3834732DC088		2
+43	1	Prefetch Problem 03	2016-12-12	0	0x9093989bd0d3	2	2	#Prefetch	2	1	150	sample.zip	다음 샘플을 참조하여, Windows System에서 사용자의 행위를  추적하기 위해 이용되는 아티팩트 중 한가지인 prefetch의 Windows system 중 XP, 7, 8.x버전들의 버전 별 Activate Count가 저장되는 offset value를 적으시오.\r\n\r\n(인증형식 : 0x(xp시작오프셋)(xp종료오프셋)(7시작오프셋)(7종료오프셋)(8.x시작오프셋)(8.x종료오프셋))	4,12,	2
+25	13	Registry Problem 01	2016-12-06	0	EST_4C532000021221119534_2016-10-23 02:35:06	35	2	#Registry	2	1	100	REG_001.7z	당신은 현재 외부 저장매체를 통한 정보 유출 흔적 분석을 의뢰 받은 상태이다. 주어진 파일은 레지스트리 파일 뿐이며, 해당 파일을 통해 다음 정보를 획득하시오..\r\n\r\n1. 해당 컴퓨터의 타임존(영문 대문자)\r\n2. 해당 컴퓨터에 연결된 적 있던 외부 저장매체의 시리얼 넘버\r\n3. 해당 외부 저장매체의 최초 연결 시각\r\n\r\n*3번 문항의 시간은 (YYYY-MM-DD hh:mm:ss (1번 문항의 답 타임존 기준)\r\n답 포맷 : [1번 답]_[2번 답]_[3번 답]\r\nEx: KST_44C931129383892_2016-10-11 11:11:11	12,6,	2
+3	1	Prefetch Problem 02	2016-12-06	0	WORKDOCUMENT.ZIP_4_CHESS.EXE_SOLITAIRE.EXE	36	4	#Prefetch	1	1	100	PRE_002.7z	크레센도 그룹의 보안담당자 B씨는 최근 인사팀으로 부터 근무태만 혐의가 있는 직원에 대한 감사 요청 및 해당 직원 PC의 프리패치 폴더를 전달받았다. 인사팀은 해당 직원이 일과 시간에 일은 안하고 다른 짓(게임 등)을 하는지, 혹은 접근 권한이 없는 문서 파일에 접근한 흔적이 없는지 확인해주기를 요청했다. 발견된 흔적은 내부 징계 처리에 사용될 것이다.\r\n\r\n주어진 프리패치 폴더에서 다음과 같은 내용을 확인하시오:\r\n1. 해당 시스템에서 압축 해제된 “압축 파일” 이름\r\n2. 1번 문항의 압축 프로그램 프리패치에서 확인 가능한 압축에 사용된 PDF 파일 수\r\n3. 직원 PC에서 실행된 적 있는 윈도우 기본 게임 실행 파일 명\r\n(실행 카운트가 확인되는 실행 파일 전부, ABC순, 띄어쓰기 제외) \r\n\r\n답 포맷 : [1번 답]_[2번 답]_[3번 답]\r\nEx: TEST.ZIP_4_STARCRAFT.EXE_ZEROPIKA.EXE	12,5,3,32,	2
+\.
+
+
+--
+-- Name: problem_problem_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('problem_problem_num_seq', 43, true);
+
+
+--
+-- Data for Name: problem_scenario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY problem_scenario (id, snum, answer_num, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, score) FROM stdin;
+2	2100	3	022O1J2I5R4WID8I	lickfiegun@gmail.com	100000													500
+1	4100	10	rnralsdmsgod	LOGONUI.EXE-09140401.pf	7	http://myblog.com_2016-12-18_11-07-17	125.139.227.123	C:/Users/Windows/AppData/Roaming/Micorosoft/MS update.exe	p@5skey	2016-12-18_09-37-50	MS update.exe_QSR_MUTEX_hqenHvzjdKA3WiKqay	192.168.208.156_4782						1500
+\.
+
+
+--
+-- Name: problem_scenario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('problem_scenario_id_seq', 2, true);
+
+
+--
+-- Data for Name: question_comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY question_comment (num, created_date, message, author_id, question_id) FROM stdin;
+\.
+
+
+--
+-- Name: question_comment_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('question_comment_num_seq', 3, true);
+
+
+--
+-- Data for Name: question_question; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY question_question (num, title, created_date, content, comment_num, author_id) FROM stdin;
+\.
+
+
+--
+-- Name: question_question_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('question_question_num_seq', 1, true);
+
+
+--
+-- Data for Name: user_profile_userprofile; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY user_profile_userprofile (user_id, level, last_submit, score, rank, right_problems, right_scenarios, scenario1, scenario2, scenario3, scenario4) FROM stdin;
+12	0	2016-12-21 01:39:31.940294+09	2450	1	2,3,12,43,25,32,33,34,35,36,7,9,37,38,39,40,41,17,26,18,28,8,11,16,21,22,23,24,15,1,13,					
+5	0	2016-12-14 15:55:08.378221+09	1070	3	19,12,26,15,21,22,2,3,32,33,34,35,36,37,38,39,40,					
+18	0	2016-12-21 00:20:39.241201+09	400	4	7,12,15,26,					
+4	0	2016-12-16 10:41:55.707677+09	350	5	2,43,5,					
+3	0	2016-12-20 17:45:58.380476+09	200	6	3,19,					
+16	0	2016-12-12 18:50:49.197425+09	200	6	26,7,					
+28	0	2016-12-14 18:36:35.056044+09	100	8	2,					
+32	0	2016-12-17 12:11:45.097485+09	100	8	3,					
+23	0	2016-12-20 15:48:36.515362+09	100	8	2,					
+11	0	2016-12-13 20:40:26.20736+09	30	11	33,					
+27	0	2016-12-14 18:07:03.797524+09	0	12						
+10	0	2016-12-11 22:24:52.78576+09	0	12						
+14	0	2016-12-12 10:09:11.556496+09	0	12						
+33	0	2016-12-19 11:14:50.335115+09	0	12						
+31	0	2016-12-17 01:45:58.569801+09	0	12						
+1	0	2016-12-09 02:21:55+09	0	12						
+25	0	2016-12-14 18:00:08.9092+09	0	12						
+26	0	2016-12-14 18:00:47.934467+09	0	12						
+8	0	2016-12-11 20:09:09.657004+09	0	12						
+9	0	2016-12-11 20:22:51.08152+09	0	12						
+15	0	2016-12-12 11:08:45.254153+09	0	12						
+17	0	2016-12-12 17:48:03.091271+09	0	12						
+13	0	2016-12-12 01:03:15.749796+09	0	12						
+7	0	2016-12-11 19:38:47.895271+09	0	12						
+2	100	2016-12-14 22:28:37+09	-1	26	29,12,					
+19	0	2016-12-12 19:29:54+09	-1	26						
+6	0	2016-12-21 14:13:12.205436+09	1200	2	32,41,33,34,12,26,16,15,35,36,37,38,39,40,25,17,19,21,22,					
+\.
+
+
+--
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions_group_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission_content_type_id_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_user_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: community_comment_c_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY community_comment_c
+    ADD CONSTRAINT community_comment_c_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: community_comment_scenario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY community_comment_scenario
+    ADD CONSTRAINT community_comment_scenario_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: community_community_scenario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY community_community_scenario
+    ADD CONSTRAINT community_community_scenario_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: community_freeboard_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY community_freeboard
+    ADD CONSTRAINT community_freeboard_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: community_notice_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY community_notice
+    ADD CONSTRAINT community_notice_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type_app_label_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: document_document_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY document_document
+    ADD CONSTRAINT document_document_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: problem_answerlog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY problem_answerlog
+    ADD CONSTRAINT problem_answerlog_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: problem_problem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY problem_problem
+    ADD CONSTRAINT problem_problem_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: problem_scenario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY problem_scenario
+    ADD CONSTRAINT problem_scenario_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: question_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY question_comment
+    ADD CONSTRAINT question_comment_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: question_question_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY question_question
+    ADD CONSTRAINT question_question_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: user_profile_userprofile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY user_profile_userprofile
+    ADD CONSTRAINT user_profile_userprofile_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_0e939a4f ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_8373b171 ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_permission_417f1b1c ON auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_0e939a4f ON auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_e8701ad4 ON auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_8373b171 ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_e8701ad4 ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: community_comment_c_256b6388; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX community_comment_c_256b6388 ON community_comment_c USING btree (freeboard_id);
+
+
+--
+-- Name: community_comment_c_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX community_comment_c_4f331e2f ON community_comment_c USING btree (author_id);
+
+
+--
+-- Name: community_comment_scenario_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX community_comment_scenario_4f331e2f ON community_comment_scenario USING btree (author_id);
+
+
+--
+-- Name: community_comment_scenario_803bd502; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX community_comment_scenario_803bd502 ON community_comment_scenario USING btree (c_scenario_id);
+
+
+--
+-- Name: community_community_scenario_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX community_community_scenario_4f331e2f ON community_community_scenario USING btree (author_id);
+
+
+--
+-- Name: community_freeboard_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX community_freeboard_4f331e2f ON community_freeboard USING btree (author_id);
+
+
+--
+-- Name: community_notice_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX community_notice_4f331e2f ON community_notice USING btree (author_id);
+
+
+--
+-- Name: django_admin_log_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_417f1b1c ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_e8701ad4 ON django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_de54fa62; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_de54fa62 ON django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: document_document_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX document_document_4f331e2f ON document_document USING btree (author_id);
+
+
+--
+-- Name: problem_answerlog_a8919bbb; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX problem_answerlog_a8919bbb ON problem_answerlog USING btree (submitter_id);
+
+
+--
+-- Name: problem_problem_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX problem_problem_4f331e2f ON problem_problem USING btree (author_id);
+
+
+--
+-- Name: question_comment_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX question_comment_4f331e2f ON question_comment USING btree (author_id);
+
+
+--
+-- Name: question_comment_7aa0f6ee; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX question_comment_7aa0f6ee ON question_comment USING btree (question_id);
+
+
+--
+-- Name: question_question_4f331e2f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX question_question_4f331e2f ON question_question USING btree (author_id);
+
+
+--
+-- Name: auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: comm_c_scenario_id_fb6a7d98_fk_community_community_scenario_num; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_comment_scenario
+    ADD CONSTRAINT comm_c_scenario_id_fb6a7d98_fk_community_community_scenario_num FOREIGN KEY (c_scenario_id) REFERENCES community_community_scenario(num) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: community_comm_freeboard_id_564ac330_fk_community_freeboard_num; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_comment_c
+    ADD CONSTRAINT community_comm_freeboard_id_564ac330_fk_community_freeboard_num FOREIGN KEY (freeboard_id) REFERENCES community_freeboard(num) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: community_comment_c_author_id_7269748c_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_comment_c
+    ADD CONSTRAINT community_comment_c_author_id_7269748c_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: community_comment_scenario_author_id_453b187d_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_comment_scenario
+    ADD CONSTRAINT community_comment_scenario_author_id_453b187d_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: community_community_scenario_author_id_a2753eea_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_community_scenario
+    ADD CONSTRAINT community_community_scenario_author_id_a2753eea_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: community_freeboard_author_id_adf9413e_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_freeboard
+    ADD CONSTRAINT community_freeboard_author_id_adf9413e_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: community_notice_author_id_765c9950_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY community_notice
+    ADD CONSTRAINT community_notice_author_id_765c9950_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_content_type_id_c4bce8eb_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_content_type_id_c4bce8eb_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: document_document_author_id_70c472f2_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY document_document
+    ADD CONSTRAINT document_document_author_id_70c472f2_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: problem_answerlog_submitter_id_ef97d360_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY problem_answerlog
+    ADD CONSTRAINT problem_answerlog_submitter_id_ef97d360_fk_auth_user_id FOREIGN KEY (submitter_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: problem_problem_author_id_363dd574_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY problem_problem
+    ADD CONSTRAINT problem_problem_author_id_363dd574_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: question_comment_author_id_2cae54ee_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY question_comment
+    ADD CONSTRAINT question_comment_author_id_2cae54ee_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: question_comment_question_id_d42eb005_fk_question_question_num; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY question_comment
+    ADD CONSTRAINT question_comment_question_id_d42eb005_fk_question_question_num FOREIGN KEY (question_id) REFERENCES question_question(num) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: question_question_author_id_e60a90bb_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY question_question
+    ADD CONSTRAINT question_question_author_id_e60a90bb_fk_auth_user_id FOREIGN KEY (author_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_profile_userprofile_user_id_84fd5b2a_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY user_profile_userprofile
+    ADD CONSTRAINT user_profile_userprofile_user_id_84fd5b2a_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
